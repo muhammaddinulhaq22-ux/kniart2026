@@ -288,6 +288,13 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
       <div class="vote-notice">Voting berlangsung 8 Juni 2026. Setiap anggota memiliki satu suara per kategori.</div>
       <div class="vcat-btns" id="vcat-btns"></div>
       <div class="nominees" id="nominees-grid"></div>
+
+      <!-- GRAFIK VOTING -->
+      <div id="chart-section" style="margin-top:2.5rem;display:none">
+        <p class="sec-label" style="margin-bottom:.5rem">GRAFIK PEROLEHAN SUARA</p>
+        <h3 style="font-family:'Cinzel',Georgia,serif;font-size:1rem;color:var(--acc2);margin-bottom:1.5rem;letter-spacing:.05em">Perbandingan Suara Realtime</h3>
+        <div id="chart-container"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -354,7 +361,7 @@ function buildVCats(){
     <button class="vcat-btn${c===activeCat?' active':''}" onclick="filterCat('${c}')">${c}</button>`).join('');
 }
 
-function filterCat(c){ activeCat=c; buildVCats(); renderNom(); }
+function filterCat(c){ activeCat=c; curCat=c==='Semua'?'all':c; buildVCats(); renderNom(); renderChart(); }
 
 function renderNom(){
   const el = document.getElementById('nominees-grid');
@@ -413,12 +420,60 @@ function renderNom(){
   }
 }
 
+// ── Render Chart ────────────────────────────────────────────────
+function renderChart(){
+  const container = document.getElementById('chart-container');
+  const section = document.getElementById('chart-section');
+  if(!container || !nominees.length) return;
+
+  // Filter by active category
+  const catNoms = curCat==='all' ? nominees : nominees.filter(n=>n.cat===curCat);
+  if(!catNoms.length){ section.style.display='none'; return; }
+  section.style.display='block';
+
+  const maxV = Math.max(...catNoms.map(n=>n.vote_count), 1);
+  const total = catNoms.reduce((s,n)=>s+n.vote_count,0)||1;
+
+  container.innerHTML = catNoms
+    .sort((a,b)=>b.vote_count-a.vote_count)
+    .map((n,i)=>{
+      const pct = Math.round(n.vote_count/total*100);
+      const barW = Math.round(n.vote_count/maxV*100);
+      const colors = ['#3D3D3D','#6B6B6B','#9B9B9B','#BBBBBB','#DDDDDD'];
+      const color = colors[Math.min(i, colors.length-1)];
+      const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+      return `
+        <div style="margin-bottom:1.1rem">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem;gap:.5rem">
+            <div style="font-family:'Cinzel',Georgia,serif;font-size:.72rem;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+              ${medal} ${n.nation}
+            </div>
+            <div style="font-family:'Cinzel',Georgia,serif;font-size:.7rem;color:var(--acc2);flex-shrink:0">
+              ${n.vote_count} suara &nbsp;<b style="color:var(--text)">${pct}%</b>
+            </div>
+          </div>
+          <div style="height:22px;background:var(--bg3);border-radius:2px;overflow:hidden;position:relative">
+            <div id="chart-bar-${n.id}" style="height:100%;width:0%;background:${color};transition:width 0.7s ease;border-radius:2px"></div>
+          </div>
+        </div>`;
+    }).join('');
+
+  // Animate bars
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    catNoms.forEach(n=>{
+      const barW = Math.round(n.vote_count/maxV*100);
+      const el = document.getElementById('chart-bar-'+n.id);
+      if(el) el.style.width = barW+'%';
+    });
+  }));
+}
+
 // ── Load data from Supabase ─────────────────────────────────────
 async function loadNominees(){
   const {data, error} = await sb.from('nominees').select('*').order('created_at', {ascending:true});
   if(error){ console.error(error); return; }
   nominees = data || [];
-  buildVCats(); renderNom(); renderRegs();
+  buildVCats(); renderNom(); renderRegs(); renderChart();
 }
 
 // ── Submit pendaftaran ──────────────────────────────────────────
@@ -487,7 +542,7 @@ function subscribeRealtime(){
       const idx = nominees.findIndex(n=>n.id===payload.new.id);
       if(idx!==-1){
         nominees[idx] = {...nominees[idx], ...payload.new};
-        renderNom();
+        renderNom(); renderChart();
       }
     })
     .on('postgres_changes', {event:'INSERT', schema:'public', table:'nominees'}, payload=>{
@@ -514,7 +569,7 @@ async function pollNominees(){
       nominees[idx] = {...nominees[idx], ...n}; changed=true;
     }
   });
-  if(changed){ buildVCats(); renderNom(); renderRegs(); }
+  if(changed){ buildVCats(); renderNom(); renderRegs(); renderChart(); }
 }
 setInterval(pollNominees, 5000);
 
