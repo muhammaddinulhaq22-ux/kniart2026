@@ -170,7 +170,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
     <div class="nav-logo">KNI AWARD</div>
     <div class="nav-links">
       <a onclick="switchTab('register');scrollSec('tabs-sec')">Daftar</a>
-      <a onclick="switchTab('vote');scrollSec('tabs-sec')">Voting</a>
+      <a onclick="promptVotePassword();scrollSec('tabs-sec')">Voting</a>
+      <a onclick="promptChartPassword();scrollSec('tabs-sec')">Grafik</a>
     </div>
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -178,7 +179,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
   </div>
   <div class="mobile-menu" id="mobile-menu">
     <a onclick="switchTab('register');scrollSec('tabs-sec');toggleMenu()">Daftar</a>
-    <a onclick="switchTab('vote');scrollSec('tabs-sec');toggleMenu()">Voting</a>
+    <a onclick="promptVotePassword();toggleMenu()">Voting</a>
+    <a onclick="promptChartPassword();toggleMenu()">Grafik</a>
   </div>
 </nav>
 
@@ -189,7 +191,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
     <div class="divider"></div>
     <div class="hero-btns">
       <button class="btn-dark" onclick="switchTab('register');scrollSec('tabs-sec')">Daftarkan Sekarang</button>
-      <button class="btn-out" onclick="switchTab('vote');scrollSec('tabs-sec')">Berikan Suara</button>
+      <button class="btn-out" onclick="promptVotePassword();scrollSec('tabs-sec')">Berikan Suara</button>
     </div>
   </div>
 </div>
@@ -210,7 +212,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
   <div class="section-inner">
     <div class="tabs">
       <button class="tab active" onclick="switchTab('register')">Pendaftaran</button>
-      <button class="tab" onclick="switchTab('vote')">Voting</button>
+      <button class="tab" onclick="promptVotePassword()">Voting</button>
+      <button class="tab" onclick="promptChartPassword()">Grafik</button>
     </div>
 
     <div class="tab-content active" id="tab-register">
@@ -268,8 +271,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
           <div class="info-box">
             <h3>JADWAL</h3>
             <div class="info-item"><div class="dot"></div><div class="info-text"><b>6 Jun</b> — Pendaftaran</div></div>
-            <div class="info-item"><div class="dot"></div><div class="info-text"><b>8 Jun</b> — Voting publik & Penilaian berdasarkan voting</div></div>
-            <div class="info-item"><div class="dot"></div><div class="info-text"><b>9 Jun 2026</b> — Pengumuman pemenang</div></div>
+            <div class="info-item"><div class="dot"></div><div class="info-text"><b>8–9 Jun</b> — Voting publik & Penilaian berdasarkan voting</div></div>
+            <div class="info-item"><div class="dot"></div><div class="info-text"><b>14 Jun 2026</b> — Pengumuman pemenang</div></div>
           </div>
         </div>
       </div>
@@ -285,16 +288,30 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
       <p class="sec-label">SISTEM VOTING</p>
       <h2 class="sec-h2">Berikan Suara Anda</h2>
       <div class="sec-div"></div>
-      <div class="vote-notice">Voting berlangsung 8 Juni 2026. Setiap anggota memiliki satu suara per kategori.</div>
-      <div class="vcat-btns" id="vcat-btns"></div>
-      <div class="nominees" id="nominees-grid"></div>
 
-      <!-- GRAFIK VOTING -->
-      <div id="chart-section" style="margin-top:2.5rem;display:none">
-        <p class="sec-label" style="margin-bottom:.5rem">GRAFIK PEROLEHAN SUARA</p>
-        <h3 style="font-family:'Cinzel',Georgia,serif;font-size:1rem;color:var(--acc2);margin-bottom:1.5rem;letter-spacing:.05em">Perbandingan Suara Realtime</h3>
-        <div id="chart-container"></div>
+      <!-- VOTING LOCKED -->
+      <div style="text-align:center;padding:3rem 1rem;border:1px solid var(--border);background:var(--bg2)">
+        <div style="font-size:2.5rem;margin-bottom:1rem">🔒</div>
+        <p style="font-family:'Cinzel',Georgia,serif;font-size:.85rem;letter-spacing:.12em;color:var(--acc);margin-bottom:.75rem">VOTING BELUM DIBUKA</p>
+        <p style="font-size:.95rem;color:var(--text2);margin-bottom:.5rem">Voting publik akan dibuka pada <b>8–9 Juni 2026</b></p>
+
       </div>
+
+      <!-- Hidden nominees data (tetap diload untuk grafik) -->
+      <div style="display:none">
+        <div class="vcat-btns" id="vcat-btns"></div>
+        <div class="nominees" id="nominees-grid"></div>
+      </div>
+    </div>
+
+    <!-- TAB GRAFIK -->
+    <div class="tab-content" id="tab-chart">
+      <p class="sec-label">PEROLEHAN SUARA</p>
+      <h2 class="sec-h2">Grafik Voting Realtime</h2>
+      <div class="sec-div"></div>
+      <div id="chart-cat-btns" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.75rem"></div>
+      <div id="chart-main"></div>
+      <div style="margin-top:1rem;font-family:'Cinzel',Georgia,serif;font-size:.55rem;letter-spacing:.1em;color:var(--acc3);text-align:right" id="chart-updated"></div>
     </div>
   </div>
 </section>
@@ -303,6 +320,36 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
   <div class="footer-logo">KNI AWARD 2026</div>
   <p class="footer-sub">Komunitas Negara Fiksi Indonesia</p>
 </footer>
+
+
+
+<!-- Vote Password Modal -->
+<div id="vote-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;align-items:center;justify-content:center">
+  <div style="background:var(--bg2);border:1px solid var(--border);padding:2rem 1.75rem;max-width:320px;width:90%;text-align:center">
+    <p style="font-family:'Cinzel',Georgia,serif;font-size:.75rem;letter-spacing:.16em;color:var(--acc);margin-bottom:1.25rem">MASUKKAN SANDI VOTING</p>
+    <input id="vote-pwd-input" type="password" placeholder="Sandi..." onkeydown="if(event.key==='Enter')checkVotePassword()"
+      style="width:100%;border:1px solid var(--border);padding:.75rem;font-family:'Crimson Pro',Georgia,serif;font-size:1rem;outline:none;text-align:center;background:var(--bg);color:var(--text);margin-bottom:.75rem"/>
+    <p id="vote-pwd-error" style="font-size:.8rem;color:#c0392b;margin-bottom:.75rem;display:none">Sandi salah, coba lagi.</p>
+    <div style="display:flex;gap:.75rem">
+      <button onclick="closeVoteModal()" style="flex:1;padding:.7rem;font-family:'Cinzel',Georgia,serif;font-size:.65rem;letter-spacing:.1em;border:1px solid var(--border2);background:transparent;color:var(--acc2);cursor:pointer">BATAL</button>
+      <button onclick="checkVotePassword()" style="flex:1;padding:.7rem;font-family:'Cinzel',Georgia,serif;font-size:.65rem;letter-spacing:.1em;border:none;background:var(--acc);color:#fff;cursor:pointer">MASUK</button>
+    </div>
+  </div>
+</div>
+
+<!-- Password Modal -->
+<div id="pwd-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;align-items:center;justify-content:center">
+  <div style="background:var(--bg2);border:1px solid var(--border);padding:2rem 1.75rem;max-width:320px;width:90%;text-align:center">
+    <p style="font-family:'Cinzel',Georgia,serif;font-size:.75rem;letter-spacing:.16em;color:var(--acc);margin-bottom:1.25rem">MASUKKAN SANDI</p>
+    <input id="pwd-input" type="password" placeholder="Sandi..." onkeydown="if(event.key==='Enter')checkChartPassword()"
+      style="width:100%;border:1px solid var(--border);padding:.75rem;font-family:'Crimson Pro',Georgia,serif;font-size:1rem;outline:none;text-align:center;background:var(--bg);color:var(--text);margin-bottom:.75rem"/>
+    <p id="pwd-error" style="font-size:.8rem;color:#c0392b;margin-bottom:.75rem;display:none">Sandi salah, coba lagi.</p>
+    <div style="display:flex;gap:.75rem">
+      <button onclick="closePwdModal()" style="flex:1;padding:.7rem;font-family:'Cinzel',Georgia,serif;font-size:.65rem;letter-spacing:.1em;border:1px solid var(--border2);background:transparent;color:var(--acc2);cursor:pointer">BATAL</button>
+      <button onclick="checkChartPassword()" style="flex:1;padding:.7rem;font-family:'Cinzel',Georgia,serif;font-size:.65rem;letter-spacing:.1em;border:none;background:var(--acc);color:#fff;cursor:pointer">MASUK</button>
+    </div>
+  </div>
+</div>
 
 <div id="toast" style="position:fixed;bottom:1.5rem;right:1.5rem;background:var(--acc);color:#fff;padding:.75rem 1.25rem;font-family:'Cinzel',Georgia,serif;font-size:.65rem;letter-spacing:.08em;opacity:0;transform:translateY(6px);transition:all .3s;pointer-events:none;z-index:999"></div>
 
@@ -334,10 +381,11 @@ function toast(msg, ok=true){
 function scrollSec(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'}); }
 
 function switchTab(t){
-  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['register','vote'][i]===t));
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['register','vote','chart'][i]===t));
   document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
   document.getElementById('tab-'+t).classList.add('active');
   if(t==='vote'){buildVCats();renderNom();}
+  if(t==='chart'){renderChartTab();}
 }
 
 // ── Render ──────────────────────────────────────────────────────
@@ -361,7 +409,7 @@ function buildVCats(){
     <button class="vcat-btn${c===activeCat?' active':''}" onclick="filterCat('${c}')">${c}</button>`).join('');
 }
 
-function filterCat(c){ activeCat=c; curCat=c==='Semua'?'all':c; buildVCats(); renderNom(); renderChart(); }
+function filterCat(c){ activeCat=c; buildVCats(); renderNom(); renderChartTab(); }
 
 function renderNom(){
   const el = document.getElementById('nominees-grid');
@@ -420,60 +468,83 @@ function renderNom(){
   }
 }
 
-// ── Render Chart ────────────────────────────────────────────────
-function renderChart(){
-  const container = document.getElementById('chart-container');
-  const section = document.getElementById('chart-section');
-  if(!container || !nominees.length) return;
+// ── Render Chart Tab ────────────────────────────────────────────
+let chartCat = 'all';
 
-  // Filter by active category
-  const catNoms = curCat==='all' ? nominees : nominees.filter(n=>n.cat===curCat);
-  if(!catNoms.length){ section.style.display='none'; return; }
-  section.style.display='block';
+function renderChartTab(){
+  const allCats = [...new Set(nominees.map(n=>n.cat))];
+  // Category filter buttons
+  const catBtns = document.getElementById('chart-cat-btns');
+  if(catBtns){
+    catBtns.innerHTML = ['Semua',...allCats].map(c=>`
+      <button onclick="setChartCat('${c.replace(/'/g,"\'")}');renderChartTab()"
+        style="padding:.45rem 1rem;font-family:'Cinzel',Georgia,serif;font-size:.6rem;letter-spacing:.1em;border:1px solid var(--border2);background:${(c==='Semua'&&chartCat==='all')||(c===chartCat)?'var(--acc)':'transparent'};color:${(c==='Semua'&&chartCat==='all')||(c===chartCat)?'#fff':'var(--acc2)'};cursor:pointer;min-height:40px">
+        ${c}
+      </button>`).join('');
+  }
 
-  const maxV = Math.max(...catNoms.map(n=>n.vote_count), 1);
-  const total = catNoms.reduce((s,n)=>s+n.vote_count,0)||1;
+  const filtered = chartCat==='all' ? nominees : nominees.filter(n=>n.cat===chartCat);
+  const container = document.getElementById('chart-main');
+  if(!container) return;
 
-  container.innerHTML = catNoms
-    .sort((a,b)=>b.vote_count-a.vote_count)
-    .map((n,i)=>{
+  if(!filtered.length){
+    container.innerHTML = '<p style="text-align:center;color:var(--acc3);font-family:Cinzel,serif;font-size:.8rem;padding:2rem;letter-spacing:.1em">BELUM ADA DATA</p>';
+    return;
+  }
+
+  // Group by category if showing all
+  const groups = chartCat==='all'
+    ? allCats.map(c=>({cat:c, items:nominees.filter(n=>n.cat===c)}))
+    : [{cat:chartCat, items:filtered}];
+
+  container.innerHTML = groups.map(g=>{
+    const maxV = Math.max(...g.items.map(n=>n.vote_count),1);
+    const total = g.items.reduce((s,n)=>s+n.vote_count,0)||1;
+    const sorted = [...g.items].sort((a,b)=>b.vote_count-a.vote_count);
+    const colors = ['#2C2C2C','#555','#888','#AAA','#CCC'];
+
+    const bars = sorted.map((n,i)=>{
       const pct = Math.round(n.vote_count/total*100);
       const barW = Math.round(n.vote_count/maxV*100);
-      const colors = ['#3D3D3D','#6B6B6B','#9B9B9B','#BBBBBB','#DDDDDD'];
-      const color = colors[Math.min(i, colors.length-1)];
       const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
-      return `
-        <div style="margin-bottom:1.1rem">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem;gap:.5rem">
-            <div style="font-family:'Cinzel',Georgia,serif;font-size:.72rem;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
-              ${medal} ${n.nation}
-            </div>
-            <div style="font-family:'Cinzel',Georgia,serif;font-size:.7rem;color:var(--acc2);flex-shrink:0">
-              ${n.vote_count} suara &nbsp;<b style="color:var(--text)">${pct}%</b>
-            </div>
-          </div>
-          <div style="height:22px;background:var(--bg3);border-radius:2px;overflow:hidden;position:relative">
-            <div id="chart-bar-${n.id}" style="height:100%;width:0%;background:${color};transition:width 0.7s ease;border-radius:2px"></div>
-          </div>
-        </div>`;
+      const col = colors[Math.min(i,colors.length-1)];
+      return `<div style="margin-bottom:1.1rem">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.3rem;gap:.5rem">
+          <div style="font-family:'Cinzel',Georgia,serif;font-size:.72rem;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${medal} ${n.nation}</div>
+          <div style="font-family:'Cinzel',Georgia,serif;font-size:.68rem;color:var(--acc2);white-space:nowrap;flex-shrink:0">${n.vote_count} suara &nbsp;<b style="color:var(--text)">${pct}%</b></div>
+        </div>
+        <div style="height:24px;background:var(--bg3);border-radius:2px;overflow:hidden;position:relative">
+          <div class="chart-bar" data-w="${barW}" style="height:100%;width:0%;background:${col};border-radius:2px;transition:width 0.7s ease"></div>
+        </div>
+      </div>`;
     }).join('');
+
+    return `<div style="background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--acc);padding:1.4rem;margin-bottom:1.5rem">
+      <p style="font-family:'Cinzel',Georgia,serif;font-size:.62rem;letter-spacing:.14em;color:var(--acc2);margin-bottom:1.1rem">${g.cat}</p>
+      ${bars}
+    </div>`;
+  }).join('');
 
   // Animate bars
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
-    catNoms.forEach(n=>{
-      const barW = Math.round(n.vote_count/maxV*100);
-      const el = document.getElementById('chart-bar-'+n.id);
-      if(el) el.style.width = barW+'%';
+    document.querySelectorAll('.chart-bar').forEach(el=>{
+      el.style.width = el.dataset.w + '%';
     });
   }));
+
+  // Update timestamp
+  const upd = document.getElementById('chart-updated');
+  if(upd) upd.textContent = 'DIPERBARUI: ' + new Date().toLocaleTimeString('id-ID');
 }
 
-// ── Load data from Supabase ─────────────────────────────────────
+function setChartCat(c){ chartCat = c==='Semua'?'all':c; }
+
+// ── Load data from Supabase ─────────────────────────────────────// ── Load data from Supabase ─────────────────────────────────────
 async function loadNominees(){
   const {data, error} = await sb.from('nominees').select('*').order('created_at', {ascending:true});
   if(error){ console.error(error); return; }
   nominees = data || [];
-  buildVCats(); renderNom(); renderRegs(); renderChart();
+  buildVCats(); renderNom(); renderRegs(); renderChartTab();
 }
 
 // ── Submit pendaftaran ──────────────────────────────────────────
@@ -501,7 +572,7 @@ async function submitReg(){
     return;
   }
   nominees.push(data);
-  buildVCats(); renderNom(); renderRegs();
+  buildVCats(); renderNom(); renderRegs(); renderChartTab();
   ['f-nation','f-wa','f-desc','f-web'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-role').value='';
   document.getElementById('f-cat').value='';
@@ -518,7 +589,7 @@ async function castVote(id, cat){
   n.vote_count++;
   votes[cat] = id;
   localStorage.setItem('kni4_votes', JSON.stringify(votes));
-  renderNom();
+  renderNom(); renderChartTab();
 
   const {error} = await sb.rpc('increment_vote', {nominee_id: id});
   if(error){
@@ -526,7 +597,7 @@ async function castVote(id, cat){
     n.vote_count--;
     delete votes[cat];
     localStorage.setItem('kni4_votes', JSON.stringify(votes));
-    renderNom();
+    renderNom(); renderChartTab();
     toast('Gagal menyimpan suara: '+error.message, false);
     return;
   }
@@ -542,13 +613,13 @@ function subscribeRealtime(){
       const idx = nominees.findIndex(n=>n.id===payload.new.id);
       if(idx!==-1){
         nominees[idx] = {...nominees[idx], ...payload.new};
-        renderNom(); renderChart();
+        renderNom(); renderChartTab();
       }
     })
     .on('postgres_changes', {event:'INSERT', schema:'public', table:'nominees'}, payload=>{
       if(!nominees.find(n=>n.id===payload.new.id)){
         nominees.push(payload.new);
-        buildVCats(); renderNom(); renderRegs();
+        buildVCats(); renderNom(); renderRegs(); renderChartTab();
       }
     })
     .subscribe(status=>{
@@ -569,7 +640,7 @@ async function pollNominees(){
       nominees[idx] = {...nominees[idx], ...n}; changed=true;
     }
   });
-  if(changed){ buildVCats(); renderNom(); renderRegs(); renderChart(); }
+  if(changed){ buildVCats(); renderNom(); renderRegs(); renderChartTab(); }
 }
 setInterval(pollNominees, 5000);
 
@@ -594,6 +665,60 @@ function tick(){
   document.getElementById('cd-h').textContent = String(Math.floor((diff%864e5)/36e5)).padStart(2,'0');
   document.getElementById('cd-m').textContent = String(Math.floor((diff%36e5)/6e4)).padStart(2,'0');
   document.getElementById('cd-s').textContent = String(Math.floor((diff%6e4)/1e3)).padStart(2,'0');
+}
+
+// ── Vote Password ───────────────────────────────────────────────
+function promptVotePassword(){
+  const modal = document.getElementById('vote-modal');
+  modal.style.display = 'flex';
+  document.getElementById('vote-pwd-input').value = '';
+  document.getElementById('vote-pwd-error').style.display = 'none';
+  setTimeout(()=>document.getElementById('vote-pwd-input').focus(), 100);
+}
+
+function closeVoteModal(){
+  document.getElementById('vote-modal').style.display = 'none';
+}
+
+function checkVotePassword(){
+  const val = document.getElementById('vote-pwd-input').value.trim();
+  if(val === CHART_PWD){
+    closeVoteModal();
+    switchTab('vote');
+    scrollSec('tabs-sec');
+  } else {
+    document.getElementById('vote-pwd-error').style.display = 'block';
+    document.getElementById('vote-pwd-input').value = '';
+    document.getElementById('vote-pwd-input').focus();
+  }
+}
+
+// ── Chart Password ──────────────────────────────────────────────
+const CHART_PWD = 'KNI';
+
+function promptChartPassword(){
+  const modal = document.getElementById('pwd-modal');
+  modal.style.display = 'flex';
+  document.getElementById('pwd-input').value = '';
+  document.getElementById('pwd-error').style.display = 'none';
+  setTimeout(()=>document.getElementById('pwd-input').focus(), 100);
+}
+
+function closePwdModal(){
+  document.getElementById('pwd-modal').style.display = 'none';
+}
+
+function checkChartPassword(){
+  const val = document.getElementById('pwd-input').value.trim();
+  if(val === CHART_PWD){
+    closePwdModal();
+    switchTab('chart');
+    scrollSec('tabs-sec');
+  } else {
+    document.getElementById('pwd-error').style.display = 'block';
+    document.getElementById('pwd-input').value = '';
+    document.getElementById('pwd-input').focus();
+  }
 }
 
 // ── Hamburger menu ──────────────────────────────────────────────
