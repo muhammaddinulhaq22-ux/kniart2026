@@ -169,18 +169,14 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
   <div class="nav-inner">
     <div class="nav-logo">KNI AWARD</div>
     <div class="nav-links">
-      <a onclick="switchTab('register');scrollSec('tabs-sec')">Daftar</a>
-      <a onclick="promptVotePassword();scrollSec('tabs-sec')">Voting</a>
-      <a onclick="promptChartPassword();scrollSec('tabs-sec')">Grafik</a>
+      <a onclick="switchTab('vote');scrollSec('tabs-sec')">Voting</a>
     </div>
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </div>
   <div class="mobile-menu" id="mobile-menu">
-    <a onclick="switchTab('register');scrollSec('tabs-sec');toggleMenu()">Daftar</a>
-    <a onclick="promptVotePassword();toggleMenu()">Voting</a>
-    <a onclick="promptChartPassword();toggleMenu()">Grafik</a>
+    <a onclick="switchTab('vote');scrollSec('tabs-sec');toggleMenu()">Voting</a>
   </div>
 </nav>
 
@@ -190,20 +186,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
     <h1>KNI AWARD<br>2026</h1>
     <div class="divider"></div>
     <div class="hero-btns">
-      <button class="btn-dark" onclick="switchTab('register');scrollSec('tabs-sec')">Daftarkan Sekarang</button>
-      <button class="btn-out" onclick="promptVotePassword();scrollSec('tabs-sec')">Berikan Suara</button>
-    </div>
-  </div>
-</div>
-
-<div class="cd-bar">
-  <div class="cd-inner">
-    <span class="cd-lbl">PENDAFTARAN TERBUKA DALAM</span>
-    <div class="cd-units">
-      <div class="unit"><div class="unit-num" id="cd-d">--</div><span class="unit-lbl">HARI</span></div>
-      <div class="unit"><div class="unit-num" id="cd-h">--</div><span class="unit-lbl">JAM</span></div>
-      <div class="unit"><div class="unit-num" id="cd-m">--</div><span class="unit-lbl">MENIT</span></div>
-      <div class="unit"><div class="unit-num" id="cd-s">--</div><span class="unit-lbl">DETIK</span></div>
+      <button class="btn-out" onclick="switchTab('vote');scrollSec('tabs-sec')">Berikan Suara</button>
     </div>
   </div>
 </div>
@@ -211,12 +194,10 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
 <section id="tabs-sec" style="background:var(--bg);padding:3rem 2rem 5rem">
   <div class="section-inner">
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('register')">Pendaftaran</button>
-      <button class="tab" onclick="promptVotePassword()">Voting</button>
-      <button class="tab" onclick="promptChartPassword()">Grafik</button>
+      <button class="tab active" onclick="switchTab('vote')">Voting</button>
     </div>
 
-    <div class="tab-content active" id="tab-register">
+    <div class="tab-content" id="tab-register" style="display:none" style="display:none">
       <div class="two-col">
         <div>
           <p class="sec-label">FORMULIR PENDAFTARAN</p>
@@ -244,7 +225,6 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
             <label>Kategori *</label>
             <select id="f-cat">
               <option value="">— Pilih Kategori —</option>
-              <option>Universe Roleplay Terbaik se Indonesia</option>
               <option>Organisasi Negara Fiksi Terbaik se Indonesia</option>
             </select>
           </div>
@@ -284,34 +264,22 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
       </div>
     </div>
 
-    <div class="tab-content" id="tab-vote">
+    <div class="tab-content active" id="tab-vote">
       <p class="sec-label">SISTEM VOTING</p>
       <h2 class="sec-h2">Berikan Suara Anda</h2>
       <div class="sec-div"></div>
 
-      <!-- VOTING LOCKED -->
-      <div style="text-align:center;padding:3rem 1rem;border:1px solid var(--border);background:var(--bg2)">
-        <div style="font-size:2.5rem;margin-bottom:1rem">🔒</div>
-        <p style="font-family:'Cinzel',Georgia,serif;font-size:.85rem;letter-spacing:.12em;color:var(--acc);margin-bottom:.75rem">VOTING BELUM DIBUKA</p>
-        <p style="font-size:.95rem;color:var(--text2);margin-bottom:.5rem">Voting publik akan dibuka pada <b>8–9 Juni 2026</b></p>
+      <div class="vcat-btns" id="vcat-btns"></div>
+      <div class="nominees" id="nominees-grid"></div>
 
+      <!-- GRAFIK DI BAWAH VOTING -->
+      <div style="margin-top:2.5rem">
+        <p class="sec-label" style="margin-bottom:.5rem">PEROLEHAN SUARA</p>
+        <h3 style="font-family:'Cinzel',Georgia,serif;font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.5rem">Grafik Voting Realtime</h3>
+        <div class="sec-div"></div>
+        <div id="chart-main"></div>
+        <div style="margin-top:1rem;font-family:'Cinzel',Georgia,serif;font-size:.55rem;letter-spacing:.1em;color:var(--acc3);text-align:right" id="chart-updated"></div>
       </div>
-
-      <!-- Hidden nominees data (tetap diload untuk grafik) -->
-      <div style="display:none">
-        <div class="vcat-btns" id="vcat-btns"></div>
-        <div class="nominees" id="nominees-grid"></div>
-      </div>
-    </div>
-
-    <!-- TAB GRAFIK -->
-    <div class="tab-content" id="tab-chart">
-      <p class="sec-label">PEROLEHAN SUARA</p>
-      <h2 class="sec-h2">Grafik Voting Realtime</h2>
-      <div class="sec-div"></div>
-      <div id="chart-cat-btns" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.75rem"></div>
-      <div id="chart-main"></div>
-      <div style="margin-top:1rem;font-family:'Cinzel',Georgia,serif;font-size:.55rem;letter-spacing:.1em;color:var(--acc3);text-align:right" id="chart-updated"></div>
     </div>
   </div>
 </section>
@@ -361,7 +329,7 @@ const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 
 // ── State ───────────────────────────────────────────────────────
-const CATS = ['Semua','Universe Roleplay Terbaik se Indonesia','Organisasi Negara Fiksi Terbaik se Indonesia'];
+const CATS = ['Semua','Organisasi Negara Fiksi Terbaik se Indonesia'];
 let nominees = [];
 let votes = {};
 let activeCat = 'Semua';
@@ -381,11 +349,10 @@ function toast(msg, ok=true){
 function scrollSec(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'}); }
 
 function switchTab(t){
-  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['register','vote','chart'][i]===t));
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['vote'][i]===t));
   document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
   document.getElementById('tab-'+t).classList.add('active');
   if(t==='vote'){buildVCats();renderNom();}
-  if(t==='chart'){renderChartTab();}
 }
 
 // ── Render ──────────────────────────────────────────────────────
@@ -712,7 +679,6 @@ function checkChartPassword(){
   const val = document.getElementById('pwd-input').value.trim();
   if(val === CHART_PWD){
     closePwdModal();
-    switchTab('chart');
     scrollSec('tabs-sec');
   } else {
     document.getElementById('pwd-error').style.display = 'block';
