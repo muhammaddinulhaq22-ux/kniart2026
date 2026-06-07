@@ -168,15 +168,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
 <nav>
   <div class="nav-inner">
     <div class="nav-logo">KNI AWARD</div>
-    <div class="nav-links">
-      <a onclick="switchTab('vote');scrollSec('tabs-sec')">Voting</a>
-    </div>
+    <div class="nav-links"></div>
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </div>
   <div class="mobile-menu" id="mobile-menu">
-    <a onclick="switchTab('vote');scrollSec('tabs-sec');toggleMenu()">Voting</a>
   </div>
 </nav>
 
@@ -184,20 +181,14 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
   <div class="hero-inner">
     <div class="badge">KOMUNITAS NEGARA FIKSI INDONESIA</div>
     <h1>KNI AWARD<br>2026</h1>
+    <p style="font-family:'Cinzel',Georgia,serif;font-size:.6rem;letter-spacing:.18em;color:var(--acc2);margin-top:.75rem;margin-bottom:0">KATEGORI ORGANISASI NEGARA FIKSI TERBAIK SE INDONESIA</p>
     <div class="divider"></div>
-    <div class="hero-btns">
-      <button class="btn-out" onclick="switchTab('vote');scrollSec('tabs-sec')">Berikan Suara</button>
-    </div>
   </div>
 </div>
 
 <section id="tabs-sec" style="background:var(--bg);padding:3rem 2rem 5rem">
   <div class="section-inner">
-    <div class="tabs">
-      <button class="tab active" onclick="switchTab('vote')">Voting</button>
-    </div>
-
-    <div class="tab-content" id="tab-register" style="display:none" style="display:none">
+    <div class="tab-content" id="tab-register" style="display:none">
       <div class="two-col">
         <div>
           <p class="sec-label">FORMULIR PENDAFTARAN</p>
@@ -264,7 +255,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
       </div>
     </div>
 
-    <div class="tab-content active" id="tab-vote">
+    <div id="tab-vote">
       <p class="sec-label">SISTEM VOTING</p>
       <h2 class="sec-h2">Berikan Suara Anda</h2>
       <div class="sec-div"></div>
@@ -558,7 +549,7 @@ async function castVote(id, cat){
   localStorage.setItem('kni4_votes', JSON.stringify(votes));
   renderNom(); renderChartTab();
 
-  const {error} = await sb.rpc('increment_vote', {nominee_id: id});
+  const {error} = await sb.from('nominees').update({vote_count: n.vote_count}).eq('id', id);
   if(error){
     // Rollback
     n.vote_count--;
