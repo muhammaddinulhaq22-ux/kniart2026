@@ -165,7 +165,29 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 
-<nav>
+<!-- Loading Screen -->
+<div id="loading-screen" style="position:fixed;inset:0;background:#F7F7F8;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem">
+  <div style="text-align:center">
+    <div style="font-family:'Cinzel',Georgia,serif;font-size:2rem;font-weight:700;letter-spacing:.18em;color:#1A1A1A;animation:fadeInUp .6s ease forwards">KNI</div>
+    <div style="font-family:'Cinzel',Georgia,serif;font-size:.7rem;letter-spacing:.28em;color:#6B6B6B;margin-top:.4rem;animation:fadeInUp .6s ease .15s both">AWARD 2026</div>
+    <div style="width:36px;height:1px;background:#B0B0B0;margin:.9rem auto"></div>
+    <div style="font-family:'Cinzel',Georgia,serif;font-size:.5rem;letter-spacing:.18em;color:#B0B0B0;animation:fadeInUp .6s ease .3s both">MEMUAT DATA VOTING...</div>
+  </div>
+  <div style="display:flex;gap:.45rem;animation:fadeInUp .6s ease .4s both">
+    <div class="ld" style="animation-delay:0s"></div>
+    <div class="ld" style="animation-delay:.2s"></div>
+    <div class="ld" style="animation-delay:.4s"></div>
+  </div>
+</div>
+
+<style>
+.ld{width:7px;height:7px;border-radius:50%;background:#3D3D3D;animation:bounce .8s ease infinite}
+@keyframes bounce{0%,100%{transform:translateY(0);opacity:.3}50%{transform:translateY(-8px);opacity:1}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0;pointer-events:none}}
+</style>
+
+<div id="main-content" style="opacity:0;transition:opacity .4s ease"><nav>
   <div class="nav-inner">
     <div class="nav-logo">KNI AWARD</div>
     <div class="nav-links"></div>
@@ -518,9 +540,18 @@ function setChartCat(c){ chartCat = c==='Semua'?'all':c; }
 // ── Load data from Supabase ─────────────────────────────────────// ── Load data from Supabase ─────────────────────────────────────
 async function loadNominees(){
   const {data, error} = await sb.from('nominees').select('*').order('created_at', {ascending:true});
-  if(error){ console.error(error); return; }
+  if(error){ console.error(error); }
   nominees = data || [];
   buildVCats(); renderNom(); renderRegs(); renderChartTab();
+
+  // Hide loading screen
+  const loader = document.getElementById('loading-screen');
+  const main = document.getElementById('main-content');
+  if(loader){
+    loader.style.animation = 'fadeOut .4s ease forwards';
+    setTimeout(()=>{ loader.style.display='none'; }, 400);
+  }
+  if(main) main.style.opacity = '1';
 }
 
 // ── Submit pendaftaran ──────────────────────────────────────────
