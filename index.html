@@ -412,7 +412,7 @@ function renderNom(){
         <div class="ncard-cat">${n.cat}</div>
         <div class="bar-bg"><div class="bar-fill" id="bar-${n.id}" style="width:0%;transition:width 0.7s ease"></div></div>
         <div class="bar-nums"><span id="cnt-${n.id}">${n.vote_count} suara</span><span id="pct-${n.id}">${share}%</span></div>
-        <button class="vbtn${voted?' voted-state':''}" id="vbtn-${n.id}" onclick="castVote(${n.id},'${n.cat.replace(/'/g,"\\'")}')">
+        <button class="vbtn${voted?' voted-state':''}" id="vbtn-${n.id}" onclick="showCaptcha(${n.id},'${n.cat.replace(/'/g,"\\'")}')">
           ${voted?'VOTED':'BERIKAN SUARA'}
         </button>
       </div>`;
