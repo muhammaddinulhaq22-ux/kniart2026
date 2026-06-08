@@ -549,13 +549,24 @@ function hideLoader(){
 }
 
 async function loadNominees(){
-  // Paksa tampil maksimal 3 detik
-  const timeout = setTimeout(hideLoader, 3000);
+  // Tampilkan cache dulu agar cepat
+  try {
+    const cached = localStorage.getItem('kni_nominees_cache');
+    if(cached){
+      nominees = JSON.parse(cached);
+      buildVCats(); renderNom(); renderRegs(); renderChartTab();
+      hideLoader();
+    }
+  } catch(e){}
 
-  const {data, error} = await sb.from('nominees').select('*').order('created_at', {ascending:true});
+  // Paksa tampil maksimal 5 detik
+  const timeout = setTimeout(hideLoader, 5000);
+
+  const {data, error} = await sb.from('nominees').select('id,nation,cat,vote_count').order('created_at', {ascending:true});
   clearTimeout(timeout);
-  if(error){ console.error(error); }
+  if(error){ console.error(error); hideLoader(); return; }
   nominees = data || [];
+  try { localStorage.setItem('kni_nominees_cache', JSON.stringify(nominees)); } catch(e){}
   buildVCats(); renderNom(); renderRegs(); renderChartTab();
   hideLoader();
 }
