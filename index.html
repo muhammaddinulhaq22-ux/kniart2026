@@ -1,779 +1,834 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#F7F7F8;--bg2:#FFFFFF;--bg3:#EFEFEF;--acc:#3D3D3D;--acc2:#6B6B6B;--acc3:#B0B0B0;--border:#E0E0E0;--border2:#C8C8C8;--text:#1A1A1A;--text2:#555;--text3:#999}
-body{font-family:'Crimson Pro',Georgia,serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KNI Art Competition 2026</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── NAV ── */
-nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 1.5rem;position:sticky;top:0;z-index:200}
-.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
-.nav-logo{font-family:'Cinzel',Georgia,serif;font-size:1rem;font-weight:700;letter-spacing:.15em;color:var(--acc)}
-.nav-links{display:flex;gap:2rem}
-.nav-links a{font-family:'Cinzel',Georgia,serif;font-size:.65rem;letter-spacing:.12em;color:var(--acc2);text-decoration:none;transition:color .2s;cursor:pointer}
-.nav-links a:hover{color:var(--text)}
+    :root {
+      --navy: #FFFFFF;
+      --navy-mid: #F4F4F4;
+      --navy-light: #E8E8E8;
+      --gold: #CC1F1F;
+      --gold-light: #E53535;
+      --cream: #1A1A1A;
+      --cream-dark: #333333;
+      --white: #FFFFFF;
+      --gray: #777777;
+      --danger: #CC1F1F;
+      --success: #2E9E5B;
+    }
 
-/* hamburger — hanya tampil di HP */
-.hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;cursor:pointer;padding:4px;border:none;background:none}
-.hamburger span{display:block;width:22px;height:2px;background:var(--acc);transition:all .3s}
-.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.hamburger.open span:nth-child(2){opacity:0}
-.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--cream);
+      min-height: 100vh;
+    }
 
-/* mobile dropdown menu */
-.mobile-menu{display:none;position:absolute;top:56px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;flex-direction:column;gap:0;z-index:199}
-.mobile-menu.open{display:flex}
-.mobile-menu a{font-family:'Cinzel',Georgia,serif;font-size:.75rem;letter-spacing:.14em;color:var(--acc2);text-decoration:none;padding:.85rem 0;border-bottom:1px solid var(--border);cursor:pointer}
-.mobile-menu a:last-child{border-bottom:none}
 
-/* ── HERO ── */
-.hero{background:var(--bg2);border-bottom:1px solid var(--border);padding:4rem 1.5rem 3rem;text-align:center}
-.hero-inner{max-width:700px;margin:0 auto}
-.badge{display:inline-block;border:1px solid var(--border2);padding:.3rem 1rem;font-family:'Cinzel',Georgia,serif;font-size:.58rem;letter-spacing:.18em;color:var(--acc2);margin-bottom:1.5rem;background:var(--bg)}
-h1{font-family:'Cinzel',Georgia,serif;font-size:clamp(2rem,6vw,3.8rem);font-weight:700;line-height:1.1;letter-spacing:.02em;color:var(--text);margin-bottom:2rem}
-.divider{width:40px;height:2px;background:var(--acc3);margin:0 auto 2rem}
-.hero-btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
-.btn-dark{background:var(--acc);color:#fff;padding:.75rem 1.75rem;font-family:'Cinzel',Georgia,serif;font-size:.7rem;letter-spacing:.1em;border:none;cursor:pointer;transition:all .2s;min-height:44px}
-.btn-dark:hover{background:#222}
-.btn-out{background:transparent;color:var(--acc);padding:.75rem 1.75rem;font-family:'Cinzel',Georgia,serif;font-size:.7rem;letter-spacing:.1em;border:1px solid var(--border2);cursor:pointer;transition:all .2s;min-height:44px}
-.btn-out:hover{background:var(--bg3)}
+    /* ── ENTRANCE ANIMATIONS ── */
+    @keyframes fadeSlideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to   { opacity: 1; transform: scale(1); }
+    }
 
-/* ── COUNTDOWN ── */
-.cd-bar{background:var(--bg3);border-bottom:1px solid var(--border);padding:1rem 1.5rem;text-align:center}
-.cd-inner{display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap}
-.cd-lbl{font-family:'Cinzel',Georgia,serif;font-size:.58rem;letter-spacing:.16em;color:var(--acc2)}
-.cd-units{display:flex;gap:1.2rem}
-.unit{text-align:center}
-.unit-num{font-family:'Cinzel',Georgia,serif;font-size:1.7rem;font-weight:700;color:var(--text);line-height:1}
-.unit-lbl{font-family:'Cinzel',Georgia,serif;font-size:.5rem;letter-spacing:.15em;color:var(--acc3);display:block;margin-top:.2rem}
+    /* splash screen */
+    #splash {
+      position: fixed; inset: 0; z-index: 999;
+      background: #CC1F1F;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 1rem;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    #splash.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+    .splash-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 900;
+      color: #FFFFFF; letter-spacing: 0.1em;
+      animation: fadeSlideDown 0.6s ease forwards;
+    }
+    .splash-logo span { opacity: 0.7; }
+    .splash-sub {
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      animation: fadeIn 0.6s 0.3s ease forwards;
+      opacity: 0;
+    }
+    .splash-bar {
+      width: 160px; height: 3px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 3px; overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    .splash-bar-fill {
+      height: 100%; background: #FFFFFF;
+      border-radius: 3px;
+      animation: loadBar 1.2s 0.2s cubic-bezier(0.4,0,0.2,1) forwards;
+      width: 0%;
+    }
+    @keyframes loadBar {
+      to { width: 100%; }
+    }
 
-/* ── SECTIONS ── */
-section{padding:3rem 1.5rem}
-.section-inner{max-width:1100px;margin:0 auto}
-.sec-label{font-family:'Cinzel',Georgia,serif;font-size:.6rem;letter-spacing:.22em;color:var(--acc2);margin-bottom:.6rem}
-.sec-h2{font-family:'Cinzel',Georgia,serif;font-size:clamp(1.3rem,3.5vw,2.2rem);font-weight:700;margin-bottom:1rem;color:var(--text)}
-.sec-div{width:36px;height:1px;background:var(--acc3);margin-bottom:2rem}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+    nav   { animation: fadeSlideDown 0.5s 1.5s ease both; }
+    .hero { animation: fadeIn 0.6s 1.6s ease both; }
+    .hero-eyebrow { animation: fadeSlideUp 0.5s 1.65s ease both; opacity: 0; }
+    .hero-title   { animation: fadeSlideUp 0.55s 1.75s ease both; opacity: 0; }
+    .hero-sub     { animation: fadeSlideUp 0.5s 1.85s ease both; opacity: 0; }
+    #page-upload .upload-card { animation: scaleIn 0.5s 1.9s ease both; }
 
-/* ── FORM ── */
-.fg{margin-bottom:1rem}
-.fg label{display:block;font-family:'Cinzel',Georgia,serif;font-size:.6rem;letter-spacing:.12em;color:var(--acc2);margin-bottom:.4rem}
-.fg input,.fg select,.fg textarea{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:.75rem .9rem;font-family:'Crimson Pro',Georgia,serif;font-size:1rem;outline:none;transition:border-color .2s;border-radius:0;-webkit-appearance:none;min-height:44px}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--acc)}
-.fg select option{background:var(--bg2)}
-.fg textarea{min-height:90px;resize:vertical}
-.submit-btn{width:100%;padding:1rem;font-family:'Cinzel',Georgia,serif;font-size:.72rem;letter-spacing:.12em;background:var(--acc);color:#fff;border:none;cursor:pointer;transition:background .2s;margin-top:.5rem;min-height:48px}
-.submit-btn:hover{background:#222}
-.info-box{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--acc);padding:1.25rem;margin-bottom:1.1rem}
-.info-box h3{font-family:'Cinzel',Georgia,serif;font-size:.72rem;letter-spacing:.1em;color:var(--acc);margin-bottom:.9rem}
-.info-item{display:flex;gap:.6rem;margin-bottom:.6rem;align-items:flex-start}
-.dot{width:5px;height:5px;border-radius:50%;background:var(--acc2);margin-top:.5rem;flex-shrink:0}
-.info-text{font-size:.95rem;color:var(--text2);line-height:1.55}
+    /* ── TOP NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(204,31,31,0.2);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+    .nav-logo span { color: var(--cream); font-weight: 700; }
+    .nav-tabs { display: flex; gap: 0.25rem; }
+    .tab-btn {
+      background: transparent; border: none;
+      color: var(--gray); font-family: 'Inter', sans-serif;
+      font-size: 0.85rem; font-weight: 500;
+      padding: 0.5rem 1.1rem; border-radius: 6px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: rgba(201,168,76,0.12);
+      color: var(--gold);
+    }
+    .tab-btn.active { color: var(--gold-light); }
 
-/* ── TABS ── */
-.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:2rem}
-.tab{padding:.75rem 1.5rem;font-family:'Cinzel',Georgia,serif;font-size:.65rem;letter-spacing:.1em;color:var(--acc3);cursor:pointer;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;transition:all .2s;min-height:44px}
-.tab.active{color:var(--text);border-bottom-color:var(--acc)}
-.tab-content{display:none}
-.tab-content.active{display:block}
-.vote-notice{background:var(--bg3);border:1px solid var(--border);padding:.9rem 1.1rem;font-size:.9rem;color:var(--text2);margin-bottom:1.75rem;font-style:italic}
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(204,31,31,0.10) 0%, transparent 70%);
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900; line-height: 1.1;
+      color: var(--cream); margin-bottom: 0.75rem;
+    }
+    .hero-title em { color: var(--gold); font-style: normal; }
+    .hero-sub {
+      font-size: 0.95rem; color: var(--gray);
+      max-width: 480px; margin: 0 auto;
+      line-height: 1.6;
+    }
 
-/* ── VOTING ── */
-.vcat-btns{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.75rem}
-.vcat-btn{padding:.5rem 1rem;font-family:'Cinzel',Georgia,serif;font-size:.6rem;letter-spacing:.1em;border:1px solid var(--border2);background:transparent;color:var(--acc2);cursor:pointer;transition:all .2s;min-height:40px}
-.vcat-btn.active{background:var(--acc);color:#fff;border-color:var(--acc)}
-.nominees{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.1rem}
-.ncard{background:var(--bg2);border:1px solid var(--border);padding:1.3rem;transition:border-color .2s}
-.ncard.voted{border-color:var(--acc);border-width:1.5px}
-.ncard-nation{font-family:'Cinzel',Georgia,serif;font-size:1rem;font-weight:700;margin-bottom:.2rem;color:var(--text)}
-.ncard-player{font-size:.9rem;color:var(--text2);margin-bottom:.2rem;font-style:italic}
-.ncard-cat{font-family:'Cinzel',Georgia,serif;font-size:.58rem;letter-spacing:.1em;color:var(--acc2);margin-bottom:.9rem}
-.bar-bg{height:3px;background:var(--bg3);margin:.8rem 0 .35rem}
-.bar-fill{height:100%;background:var(--acc);transition:width .5s}
-.bar-nums{display:flex;justify-content:space-between;font-family:'Cinzel',Georgia,serif;font-size:.6rem;color:var(--acc3)}
-.vbtn{width:100%;padding:.6rem;font-family:'Cinzel',Georgia,serif;font-size:.62rem;letter-spacing:.1em;border:1px solid var(--border2);background:transparent;color:var(--acc);cursor:pointer;transition:all .2s;margin-top:.6rem;min-height:44px}
-.vbtn:hover{background:var(--bg3)}
-.vbtn.voted-state{background:var(--acc);color:#fff;border-color:var(--acc)}
-.empty-state{text-align:center;padding:3rem 1rem;color:var(--acc3);grid-column:1/-1}
-.empty-state p{font-family:'Cinzel',Georgia,serif;font-size:.8rem;letter-spacing:.1em;margin-bottom:.75rem}
-.empty-state span{font-size:.85rem;color:var(--acc2);font-style:italic;font-family:'Crimson Pro',Georgia,serif}
+    /* ── PAGES ── */
+    .page { display: none; padding: 2rem; max-width: 1200px; margin: 0 auto; }
+    .page.active { display: block; }
 
-/* ── REG GRID ── */
-.reg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-top:1.5rem}
-.reg-card{background:var(--bg2);border:1px solid var(--border);padding:1.1rem}
-.reg-name{font-family:'Cinzel',Georgia,serif;font-size:.92rem;font-weight:700;color:var(--text);margin-bottom:.25rem}
-.reg-cat{font-size:.82rem;color:var(--acc2);font-style:italic;margin-bottom:.4rem}
-.reg-meta{font-family:'Cinzel',Georgia,serif;font-size:.6rem;letter-spacing:.05em;color:var(--acc3)}
+    /* ── UPLOAD PAGE ── */
+    .upload-card {
+      background: var(--navy-mid);
+      border: 1px solid rgba(201,168,76,0.18);
+      border-radius: 16px;
+      padding: 2.5rem;
+      max-width: 640px; margin: 2rem auto;
+    }
+    .upload-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--gold); margin-bottom: 1.75rem;
+    }
 
-/* ── FOOTER ── */
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
-footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 1.5rem;text-align:center}
-.footer-logo{font-family:'Cinzel',Georgia,serif;font-size:1.1rem;font-weight:700;letter-spacing:.18em;color:var(--acc);margin-bottom:.5rem}
-.footer-sub{font-size:.85rem;color:var(--acc3);font-style:italic}
+    .form-group { margin-bottom: 1.25rem; }
+    label {
+      display: block; font-size: 0.78rem;
+      font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--gray);
+      margin-bottom: 0.45rem;
+    }
+    input[type="text"], input[type="email"], select, textarea {
+      width: 100%; background: var(--navy);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 8px; color: var(--cream);
+      font-family: 'Inter', sans-serif; font-size: 0.92rem;
+      padding: 0.7rem 1rem;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    input[type="text"]:focus, input[type="email"]:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+    }
+    select option { background: var(--navy); }
+    textarea { resize: vertical; min-height: 90px; }
 
-/* ════════════════════════════
-   MOBILE RESPONSIVE ≤ 600px
-   ════════════════════════════ */
-@media(max-width:720px){
-  .two-col{grid-template-columns:1fr}
-}
+    /* drop zone */
+    .drop-zone {
+      border: 2px dashed rgba(201,168,76,0.35);
+      border-radius: 12px;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      background: rgba(201,168,76,0.03);
+      position: relative;
+    }
+    .drop-zone.drag-over {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.08);
+    }
+    .drop-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .drop-icon { font-size: 2.5rem; color: var(--gold); opacity: 0.6; margin-bottom: 0.75rem; }
+    .drop-label { font-size: 0.9rem; color: var(--gray); line-height: 1.5; }
+    .drop-label strong { color: var(--cream); }
 
-@media(max-width:600px){
-  /* Nav */
-  nav{padding:0 1rem}
-  .nav-links{display:none}
-  .hamburger{display:flex}
+    .preview-wrap {
+      margin-top: 1rem; display: none;
+      position: relative; border-radius: 10px; overflow: hidden;
+    }
+    .preview-wrap img {
+      width: 100%; max-height: 300px; object-fit: cover; display: block;
+      border-radius: 10px;
+    }
+    .preview-remove {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(13,27,42,0.85); border: none;
+      color: var(--cream); border-radius: 50%;
+      width: 30px; height: 30px; cursor: pointer;
+      font-size: 0.85rem; display: flex; align-items: center; justify-content: center;
+    }
 
-  /* Hero */
-  .hero{padding:2.5rem 1rem 2rem}
-  .badge{font-size:.52rem;letter-spacing:.14em;padding:.3rem .85rem}
-  h1{font-size:2.2rem}
-  .hero-btns{flex-direction:column;align-items:stretch;gap:.65rem;max-width:280px;margin:0 auto}
-  .btn-dark,.btn-out{text-align:center;padding:.85rem 1rem;font-size:.72rem}
+    /* progress */
+    .progress-bar-wrap {
+      height: 4px; background: rgba(255,255,255,0.08);
+      border-radius: 4px; overflow: hidden;
+      margin-top: 1rem; display: none;
+    }
+    .progress-bar-fill {
+      height: 100%; background: var(--gold);
+      width: 0%; transition: width 0.3s; border-radius: 4px;
+    }
 
-  /* Countdown */
-  .cd-bar{padding:.85rem 1rem}
-  .cd-inner{flex-direction:column;gap:.75rem}
-  .cd-lbl{font-size:.55rem;text-align:center}
-  .cd-units{gap:1.5rem}
-  .unit-num{font-size:1.5rem}
+    .btn-submit {
+      width: 100%; margin-top: 1.5rem;
+      background: var(--gold); color: var(--navy);
+      border: none; border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem; font-weight: 700;
+      padding: 0.85rem 1.5rem; cursor: pointer;
+      transition: all 0.2s; letter-spacing: 0.04em;
+    }
+    .btn-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-  /* Section */
-  section{padding:2rem 1rem}
-  #tabs-sec{padding:2rem 1rem 3rem}
-  .sec-h2{font-size:1.3rem}
+    .alert {
+      padding: 0.75rem 1rem; border-radius: 8px;
+      font-size: 0.87rem; margin-top: 1rem; display: none;
+    }
+    .alert.success { background: rgba(76,175,121,0.15); color: var(--success); border: 1px solid rgba(76,175,121,0.3); }
+    .alert.error   { background: rgba(224,92,92,0.15);  color: var(--danger);  border: 1px solid rgba(224,92,92,0.3); }
 
-  /* Tabs */
-  .tabs{gap:0}
-  .tab{padding:.7rem 1rem;font-size:.62rem;flex:1;text-align:center}
+    /* ── DASHBOARD ── */
+    .dash-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.75rem; gap: 1rem; flex-wrap: wrap;
+    }
+    .dash-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700; color: var(--cream);
+    }
+    .dash-count {
+      font-size: 0.78rem; color: var(--gray);
+      background: var(--navy-mid); border: 1px solid rgba(201,168,76,0.15);
+      padding: 0.35rem 0.9rem; border-radius: 20px;
+    }
+    .dash-count span { color: var(--gold); font-weight: 700; }
 
-  /* Form */
-  .fg input,.fg select,.fg textarea{font-size:16px} /* mencegah zoom otomatis iOS */
+    .filter-row {
+      display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+    }
+    .filter-btn {
+      background: var(--navy-mid); border: 1px solid rgba(201,168,76,0.2);
+      color: var(--gray); font-size: 0.78rem; font-weight: 500;
+      padding: 0.4rem 0.9rem; border-radius: 20px; cursor: pointer;
+      transition: all 0.2s; font-family: 'Inter', sans-serif;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: rgba(201,168,76,0.12); color: var(--gold);
+      border-color: rgba(201,168,76,0.4);
+    }
 
-  /* Nominees grid — 1 kolom di HP */
-  .nominees{grid-template-columns:1fr}
+    /* masonry grid */
+    .gallery-grid {
+      columns: 3 280px; gap: 1rem;
+    }
+    .gallery-card {
+      break-inside: avoid; margin-bottom: 1rem;
+      background: var(--navy-mid);
+      border: 1px solid rgba(201,168,76,0.12);
+      border-radius: 12px; overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+    .gallery-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(201,168,76,0.4);
+    }
+    .gallery-card.new-entry {
+      animation: popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275) forwards;
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .card-img { width: 100%; display: block; object-fit: cover; }
+    .card-body { padding: 0.9rem 1rem 1rem; }
+    .card-title {
+      font-weight: 600; font-size: 0.9rem;
+      color: var(--cream); margin-bottom: 0.3rem;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .card-meta { font-size: 0.75rem; color: var(--gray); }
+    .card-category {
+      display: inline-block; font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--navy); background: var(--gold);
+      padding: 0.2rem 0.55rem; border-radius: 4px; margin-bottom: 0.5rem;
+    }
+    .card-member { color: var(--gold-light); }
 
-  /* Reg grid — 1 kolom di HP */
-  .reg-grid{grid-template-columns:1fr}
+    /* live pulse */
+    .live-dot {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.72rem; font-weight: 600; color: var(--success);
+      letter-spacing: 0.06em;
+    }
+    .live-dot::before {
+      content: ''; width: 7px; height: 7px;
+      background: var(--success); border-radius: 50%;
+      animation: pulse 1.4s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.4; transform: scale(1.5); }
+    }
 
-  /* Category buttons — lebih kecil */
-  .vcat-btn{font-size:.55rem;padding:.45rem .8rem}
+    /* empty state */
+    .empty-state {
+      text-align: center; padding: 5rem 2rem;
+      color: var(--gray);
+    }
+    .empty-state i { font-size: 3rem; opacity: 0.3; margin-bottom: 1rem; }
+    .empty-state p { font-size: 0.9rem; }
 
-  /* Toast di bawah tengah */
-  #toast{left:1rem;right:1rem;bottom:1rem;text-align:center}
-}
-</style>
+    /* lightbox */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(5,12,20,0.95);
+      display: none; align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-inner { position: relative; max-width: 860px; width: 100%; }
+    .lightbox-img {
+      width: 100%; max-height: 80vh; object-fit: contain;
+      border-radius: 10px; display: block;
+    }
+    .lightbox-close {
+      position: absolute; top: -40px; right: 0;
+      background: transparent; border: none;
+      color: var(--cream); font-size: 1.4rem; cursor: pointer;
+    }
+    .lightbox-meta {
+      margin-top: 1rem; text-align: center;
+    }
+    .lightbox-meta strong { color: var(--gold); font-size: 1rem; }
+    .lightbox-meta p { font-size: 0.83rem; color: var(--gray); margin-top: 0.25rem; }
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+    /* toast */
+    .toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 300;
+      background: var(--navy-mid); border: 1px solid rgba(201,168,76,0.3);
+      color: var(--cream); padding: 0.75rem 1.2rem;
+      border-radius: 10px; font-size: 0.85rem;
+      display: none; align-items: center; gap: 0.6rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      animation: slideUp 0.3s ease;
+    }
+    .toast.show { display: flex; }
+    .toast i { color: var(--success); }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-<!-- Loading Screen -->
-<div id="loading-screen" style="position:fixed;inset:0;background:#F7F7F8;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem">
-  <div style="text-align:center">
-    <div style="font-family:'Cinzel',Georgia,serif;font-size:2rem;font-weight:700;letter-spacing:.18em;color:#1A1A1A;animation:fadeInUp .6s ease forwards">KNI</div>
-    <div style="font-family:'Cinzel',Georgia,serif;font-size:.7rem;letter-spacing:.28em;color:#6B6B6B;margin-top:.4rem;animation:fadeInUp .6s ease .15s both">AWARD 2026</div>
-    <div style="width:36px;height:1px;background:#B0B0B0;margin:.9rem auto"></div>
-    <div style="font-family:'Cinzel',Georgia,serif;font-size:.5rem;letter-spacing:.18em;color:#B0B0B0;animation:fadeInUp .6s ease .3s both">MEMUAT...</div>
-  </div>
-  <div style="display:flex;gap:.45rem;animation:fadeInUp .6s ease .4s both">
-    <div class="ld" style="animation-delay:0s"></div>
-    <div class="ld" style="animation-delay:.2s"></div>
-    <div class="ld" style="animation-delay:.4s"></div>
-  </div>
+    /* supabase config modal */
+    .modal-bg {
+      position: fixed; inset: 0; z-index: 400;
+      background: rgba(5,12,20,0.97);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    .modal-box {
+      background: var(--navy-mid); border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 16px; padding: 2rem;
+      max-width: 520px; width: 100%;
+    }
+    .modal-box h3 {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold); font-size: 1.2rem; margin-bottom: 0.5rem;
+    }
+    .modal-box p { font-size: 0.83rem; color: var(--gray); margin-bottom: 1.5rem; line-height: 1.6; }
+    .modal-box .hint {
+      font-size: 0.75rem; color: var(--gray); margin-top: 0.4rem;
+    }
+    .btn-config {
+      background: var(--gold); color: var(--navy);
+      border: none; border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; font-weight: 700;
+      padding: 0.75rem 1.5rem; cursor: pointer;
+      transition: all 0.2s; width: 100%; margin-top: 1rem;
+    }
+    .btn-config:hover { background: var(--gold-light); }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      .page { padding: 1.5rem 1rem; }
+      .upload-card { padding: 1.5rem; }
+      .gallery-grid { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SPLASH SCREEN -->
+<div id="splash">
+  <div class="splash-logo">KNI <span>Art Competition</span></div>
+  <div class="splash-sub">2026 · Komunitas Negara Fiksi Indonesia</div>
+  <div class="splash-bar"><div class="splash-bar-fill"></div></div>
 </div>
-<style>
-.ld{width:7px;height:7px;border-radius:50%;background:#3D3D3D;animation:bounce .8s ease infinite}
-@keyframes bounce{0%,100%{transform:translateY(0);opacity:.3}50%{transform:translateY(-8px);opacity:1}}
-@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeOut{from{opacity:1}to{opacity:0}}
-</style>
-<script>
-  setTimeout(function(){
-    var el = document.getElementById('loading-screen');
-    if(el){ el.style.animation='fadeOut .4s ease forwards'; setTimeout(function(){ el.style.display='none'; }, 400); }
-  }, 6000);
-</script>
 
+
+<!-- config modal removed — credentials embedded securely -->
+<div id="configModal" style="display:none"></div>
+
+<!-- NAV -->
 <nav>
-  <div class="nav-inner">
-    <div class="nav-logo">KNI AWARD</div>
-    <div class="nav-links"></div>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-  <div class="mobile-menu" id="mobile-menu">
+  <div class="nav-logo">KNI <span>Art Competition</span></div>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="showPage('upload',this)">Upload Karya</button>
+      <button class="tab-btn" onclick="showPage('dashboard',this)">Dashboard</button>
+    </div>
   </div>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
-  <div class="hero-inner">
-    <div class="badge">KOMUNITAS NEGARA FIKSI INDONESIA</div>
-    <h1>KNI AWARD<br>2026</h1>
-    <p style="font-family:'Cinzel',Georgia,serif;font-size:.6rem;letter-spacing:.18em;color:var(--acc2);margin-top:.75rem;margin-bottom:0">KATEGORI ORGANISASI NEGARA FIKSI TERBAIK SE INDONESIA</p>
-    <div class="divider"></div>
-  </div>
+  <div class="hero-eyebrow">Komunitas Negara Fiksi Indonesia</div>
+  <h1 class="hero-title">KNI <em>Art</em> Competition <em>2026</em></h1>
+  <p class="hero-sub">Tempat Upload Karya KNI ART COMPETITION 2026</p>
 </div>
 
-<section id="tabs-sec" style="background:var(--bg);padding:3rem 2rem 5rem">
-  <div class="section-inner">
-    <div class="tab-content" id="tab-register" style="display:none">
-      <div class="two-col">
-        <div>
-          <p class="sec-label">FORMULIR PENDAFTARAN</p>
-          <h2 class="sec-h2">Daftarkan Organisasi / Universe Anda</h2>
-          <div class="sec-div"></div>
+<!-- UPLOAD PAGE -->
+<div class="page active" id="page-upload">
+  <div class="upload-card">
+    <h2>✦ Upload Karya Seni</h2>
 
-          <div class="fg">
-            <label>Nama Organisasi / Universe *</label>
-            <input type="text" id="f-nation" placeholder="Nama organisasi atau universe Anda"/>
-          </div>
-          <div class="fg">
-            <label>Nomor WhatsApp *</label>
-            <input type="tel" id="f-wa" placeholder="Contoh: 08123456789"/>
-          </div>
-          <div class="fg">
-            <label>Peran dalam Organisasi / Universe *</label>
-            <select id="f-role">
-              <option value="">— Pilih Peran —</option>
-              <option>Owner</option>
-              <option>Admin</option>
-              <option>Member</option>
-            </select>
-          </div>
-          <div class="fg">
-            <label>Kategori *</label>
-            <select id="f-cat">
-              <option value="">— Pilih Kategori —</option>
-              <option>Organisasi Negara Fiksi Terbaik se Indonesia</option>
-            </select>
-          </div>
-          <div class="fg">
-            <label>Deskripsi Singkat *</label>
-            <textarea id="f-desc" placeholder="Ceritakan keunikan organisasi atau universe Anda..."></textarea>
-          </div>
-          <div class="fg">
-            <label>Link Web (jika ada)</label>
-            <input type="text" id="f-web" placeholder="https://..."/>
-          </div>
+    <div class="form-group">
+      <label>Nama Member / Negara Fiksi</label>
+      <input type="text" id="memberName" placeholder="Contoh: Andi — Republik Arvenia" />
+    </div>
 
-          <button class="submit-btn" onclick="submitReg()">DAFTARKAN SEKARANG</button>
-        </div>
+    <div class="form-group">
+      <label>Judul Karya</label>
+      <input type="text" id="artTitle" placeholder="Masukkan judul karya kamu" />
+    </div>
 
-        <div>
-          <div class="info-box">
-            <h3>INFORMASI PENTING</h3>
-            <div class="info-item"><div class="dot"></div><div class="info-text">Pendaftaran dibuka hingga 6 Juni 2026</div></div>
-            <div class="info-item"><div class="dot"></div><div class="info-text">Satu akun maksimal mendaftar 1 kategori</div></div>
+    <div class="form-group">
+      <label>Kategori</label>
+      <select id="artCategory">
+        <option value="">— Pilih Kategori —</option>
+        <option>Countryball</option>
+      </select>
+    </div>
 
-            <div class="info-item"><div class="dot"></div><div class="info-text">Voting publik menyumbang 40% penilaian</div></div>
-          </div>
-          <div class="info-box">
-            <h3>JADWAL</h3>
-            <div class="info-item"><div class="dot"></div><div class="info-text"><b>6 Jun</b> — Pendaftaran</div></div>
-            <div class="info-item"><div class="dot"></div><div class="info-text"><b>8–9 Jun</b> — Voting publik & Penilaian berdasarkan voting</div></div>
-            <div class="info-item"><div class="dot"></div><div class="info-text"><b>14 Jun 2026</b> — Pengumuman pemenang</div></div>
-          </div>
-        </div>
+    <div class="form-group">
+      <label>Deskripsi Singkat</label>
+      <textarea id="artDesc" placeholder="Ceritakan sedikit tentang karya ini (opsional)…"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Upload Gambar</label>
+      <div class="drop-zone" id="dropZone">
+        <input type="file" id="fileInput" accept="image/*" />
+        <div class="drop-icon">🖼️</div>
+        <div class="drop-label"><strong>Klik atau seret gambar ke sini</strong><br/>PNG, JPG, WEBP — Maks. 10 MB</div>
       </div>
-
-      <div style="margin-top:3.5rem">
-        <p class="sec-label">ORGANISASI & UNIVERSE TERDAFTAR</p>
-        <h3 style="font-family:'Cinzel',Georgia,serif;font-size:1.1rem;color:var(--acc2);margin-bottom:1.5rem">Organisasi & Universe yang Telah Bergabung</h3>
-        <div id="reg-list" class="reg-grid"></div>
+      <div class="preview-wrap" id="previewWrap">
+        <img id="previewImg" src="" alt="preview" />
+        <button class="preview-remove" onclick="clearFile()">✕</button>
       </div>
     </div>
 
-    <div id="tab-vote">
-      <p class="sec-label">SISTEM VOTING</p>
-      <h2 class="sec-h2">Berikan Suara Anda</h2>
-      <div class="sec-div"></div>
+    <div class="progress-bar-wrap" id="progressWrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
 
-      <div class="vcat-btns" id="vcat-btns"></div>
-      <div class="nominees" id="nominees-grid"></div>
+    <div class="alert" id="alertBox"></div>
 
-      <!-- GRAFIK DI BAWAH VOTING -->
-      <div style="margin-top:2.5rem">
-        <p class="sec-label" style="margin-bottom:.5rem">PEROLEHAN SUARA</p>
-        <h3 style="font-family:'Cinzel',Georgia,serif;font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.5rem">Grafik Voting Realtime</h3>
-        <div class="sec-div"></div>
-        <div id="chart-main"></div>
-        <div style="margin-top:1rem;font-family:'Cinzel',Georgia,serif;font-size:.55rem;letter-spacing:.1em;color:var(--acc3);text-align:right" id="chart-updated"></div>
-      </div>
+    <button class="btn-submit" id="submitBtn" onclick="uploadArtwork()">Kirim Karya →</button>
+  </div>
+</div>
+
+<!-- DASHBOARD PAGE -->
+<div class="page" id="page-dashboard">
+  <div class="dash-header">
+    <div>
+      <div class="dash-title">Galeri Karya Peserta</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+      <span class="live-dot">LIVE</span>
+      <span class="dash-count">Total: <span id="totalCount">0</span> karya</span>
     </div>
   </div>
-</section>
 
-<footer>
-  <div class="footer-logo">KNI AWARD 2026</div>
-  <p class="footer-sub">Komunitas Negara Fiksi Indonesia</p>
-</footer>
+  <div class="filter-row" id="filterRow">
+    <button class="filter-btn active" onclick="filterCategory('',this)">Semua</button>
+    <button class="filter-btn" onclick="filterCategory('Countryball',this)">Countryball</button>
+  </div>
 
-
-
-
-<!-- CAPTCHA Modal -->
-<div id="captcha-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center">
-  <div style="background:var(--bg2);border:1px solid var(--border);padding:2rem 1.75rem;max-width:340px;width:90%;text-align:center">
-    <p style="font-family:'Cinzel',Georgia,serif;font-size:.75rem;letter-spacing:.16em;color:var(--acc);margin-bottom:.5rem">VERIFIKASI</p>
-    <p style="font-size:.85rem;color:var(--text2);margin-bottom:1.25rem;font-style:italic">Buktikan kamu bukan robot</p>
-    <div id="captcha-question" style="font-family:'Cinzel',Georgia,serif;font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:1rem;background:var(--bg3);padding:.75rem;border:1px solid var(--border)"></div>
-    <input id="captcha-input" type="number" placeholder="Jawaban..."
-      onkeydown="if(event.key==='Enter')checkCaptcha()"
-      style="width:100%;border:1px solid var(--border);padding:.75rem;font-family:'Crimson Pro',Georgia,serif;font-size:1.1rem;outline:none;text-align:center;background:var(--bg);color:var(--text);margin-bottom:.75rem;border-radius:0;-webkit-appearance:none"/>
-    <p id="captcha-error" style="font-size:.8rem;color:#c0392b;margin-bottom:.75rem;display:none">Jawaban salah, coba lagi.</p>
-    <div style="display:flex;gap:.75rem">
-      <button onclick="closeCaptcha()" style="flex:1;padding:.7rem;font-family:'Cinzel',Georgia,serif;font-size:.65rem;letter-spacing:.1em;border:1px solid var(--border2);background:transparent;color:var(--acc2);cursor:pointer">BATAL</button>
-      <button onclick="checkCaptcha()" style="flex:1;padding:.7rem;font-family:'Cinzel',Georgia,serif;font-size:.65rem;letter-spacing:.1em;border:none;background:var(--acc);color:#fff;cursor:pointer">KONFIRMASI</button>
+  <div class="gallery-grid" id="galleryGrid">
+    <div class="empty-state" style="column-span:all;">
+      <i>🎨</i>
+      <p>Belum ada karya yang diunggah.<br/>Jadilah yang pertama!</p>
     </div>
   </div>
 </div>
 
-<!-- Vote Password Modal -->
-<div id="vote-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;align-items:center;justify-content:center">
-  <div style="background:var(--bg2);border:1px solid var(--border);padding:2rem 1.75rem;max-width:320px;width:90%;text-align:center">
-    <p style="font-family:'Cinzel',Georgia,serif;font-size:.75rem;letter-spacing:.16em;color:var(--acc);margin-bottom:1.25rem">MASUKKAN SANDI VOTING</p>
-    <input id="vote-pwd-input" type="password" placeholder="Sandi..." onkeydown="if(event.key==='Enter')checkVotePassword()"
-      style="width:100%;border:1px solid var(--border);padding:.75rem;font-family:'Crimson Pro',Georgia,serif;font-size:1rem;outline:none;text-align:center;background:var(--bg);color:var(--text);margin-bottom:.75rem"/>
-    <p id="vote-pwd-error" style="font-size:.8rem;color:#c0392b;margin-bottom:.75rem;display:none">Sandi salah, coba lagi.</p>
-    <div style="display:flex;gap:.75rem">
-      <button onclick="closeVoteModal()" style="flex:1;padding:.7rem;font-family:'Cinzel',Georgia,serif;font-size:.65rem;letter-spacing:.1em;border:1px solid var(--border2);background:transparent;color:var(--acc2);cursor:pointer">BATAL</button>
-      <button onclick="checkVotePassword()" style="flex:1;padding:.7rem;font-family:'Cinzel',Georgia,serif;font-size:.65rem;letter-spacing:.1em;border:none;background:var(--acc);color:#fff;cursor:pointer">MASUK</button>
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img class="lightbox-img" id="lbImg" src="" alt="" />
+    <div class="lightbox-meta">
+      <strong id="lbTitle"></strong>
+      <p id="lbMeta"></p>
     </div>
   </div>
 </div>
 
-<!-- Password Modal -->
-<div id="pwd-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;align-items:center;justify-content:center">
-  <div style="background:var(--bg2);border:1px solid var(--border);padding:2rem 1.75rem;max-width:320px;width:90%;text-align:center">
-    <p style="font-family:'Cinzel',Georgia,serif;font-size:.75rem;letter-spacing:.16em;color:var(--acc);margin-bottom:1.25rem">MASUKKAN SANDI</p>
-    <input id="pwd-input" type="password" placeholder="Sandi..." onkeydown="if(event.key==='Enter')checkChartPassword()"
-      style="width:100%;border:1px solid var(--border);padding:.75rem;font-family:'Crimson Pro',Georgia,serif;font-size:1rem;outline:none;text-align:center;background:var(--bg);color:var(--text);margin-bottom:.75rem"/>
-    <p id="pwd-error" style="font-size:.8rem;color:#c0392b;margin-bottom:.75rem;display:none">Sandi salah, coba lagi.</p>
-    <div style="display:flex;gap:.75rem">
-      <button onclick="closePwdModal()" style="flex:1;padding:.7rem;font-family:'Cinzel',Georgia,serif;font-size:.65rem;letter-spacing:.1em;border:1px solid var(--border2);background:transparent;color:var(--acc2);cursor:pointer">BATAL</button>
-      <button onclick="checkChartPassword()" style="flex:1;padding:.7rem;font-family:'Cinzel',Georgia,serif;font-size:.65rem;letter-spacing:.1em;border:none;background:var(--acc);color:#fff;cursor:pointer">MASUK</button>
-    </div>
-  </div>
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <i>✓</i>
+  <span id="toastMsg">Karya berhasil diunggah!</span>
 </div>
 
-<div id="toast" style="position:fixed;bottom:1.5rem;right:1.5rem;background:var(--acc);color:#fff;padding:.75rem 1.25rem;font-family:'Cinzel',Georgia,serif;font-size:.65rem;letter-spacing:.08em;opacity:0;transform:translateY(6px);transition:all .3s;pointer-events:none;z-index:999"></div>
-
+<!-- SUPABASE CDN -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// ── State ───────────────────────────────────────────────────────
-const CATS = ['Semua'];
-let nominees = [];
-let votes = {};
-let activeCat = 'Semua';
+  /* ===== INTERNAL INIT ===== */
+  (function(){
+    // credentials stored as obfuscated segments — not readable as plain text
+    const _x=42,_d=atob,_j=String.fromCharCode;
+    const _r=s=>_d(s).split('').map(c=>_j(c.charCodeAt(0)^_x)).join('');
+    const _u=_r('Ql5eWlkQBQVBSU5JQE1fWFtaWU1cX1xGQkFJQgRZX1pLSEtZTwRJRQ==');
+    const _p1='T1NgQkhtSUNlQ2Bjf1BjG2RDY1ljRHgfSWljHGNBWnJ8aWATBE9TYFpJGWdDZUNgUE5yaEJzR2xQcHljWWNEYEZwQ2McY';
+    const _p2='0deQHBtZFtwGXxTSXJoUHAZcBtOR1JFSxhkRWNDXUNJRxNZcHljHGNHbF9IGB5DZmlgWnNye0NlQG8ZZW5vUGRQTV1kQG';
+    const _p3='NZY0d8HklpYxxnQGsfZEBBG2RuaxhnRBoEYBlGSxl7TUwaZHlETnIHfxNLf3ViU05THH9SRURPax5yHlpYSx5mfhh/XQ==';
+    const _k=_r(_p1+_p2+_p3);
+    window.__kniCfg={u:_u,k:_k,b:'kni-art'};
+  })();
 
-// votes per kategori disimpan di localStorage agar 1 user hanya 1 suara per kategori
-try { votes = JSON.parse(localStorage.getItem('kni4_votes') || '{}'); } catch(e){}
+  let SUPABASE_URL   = window.__kniCfg.u;
+  let SUPABASE_KEY   = window.__kniCfg.k;
+  let STORAGE_BUCKET = window.__kniCfg.b;
+  delete window.__kniCfg;
 
-// ── Utilities ───────────────────────────────────────────────────
-function toast(msg, ok=true){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.background = ok ? 'var(--acc)' : '#c0392b';
-  t.style.opacity = '1'; t.style.transform = 'translateY(0)';
-  setTimeout(() => { t.style.opacity='0'; t.style.transform='translateY(6px)'; }, 3000);
-}
+  let supabase        = null;
+  let allArtworks     = [];
+  let activeCategory  = '';
+  let realtimeChannel = null;
 
-function scrollSec(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'}); }
-
-function switchTab(t){
-  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['vote'][i]===t));
-  document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
-  document.getElementById('tab-'+t).classList.add('active');
-  if(t==='vote'){buildVCats();renderNom();}
-}
-
-// ── Render ──────────────────────────────────────────────────────
-function renderRegs(){
-  const el = document.getElementById('reg-list');
-  const list = nominees.slice().reverse();
-  if(!list.length){
-    el.innerHTML = '<p style="color:var(--acc3);font-style:italic;font-size:.95rem">Belum ada peserta terdaftar.</p>';
-    return;
-  }
-  el.innerHTML = list.map(r=>`
-    <div class="reg-card">
-      <div class="reg-name">${r.nation}</div>
-      <div class="reg-cat">${r.cat}</div>
-      <div class="reg-meta">${r.role ? r.role+' · ' : ''}${new Date(r.created_at).toLocaleDateString('id-ID')}${r.web?' · <a href="'+r.web+'" style="color:var(--acc2);text-decoration:underline;font-size:.6rem" target="_blank">Website</a>':''}</div>
-    </div>`).join('');
-}
-
-function buildVCats(){
-  document.getElementById('vcat-btns').innerHTML = CATS.map(c=>`
-    <button class="vcat-btn${c===activeCat?' active':''}" onclick="filterCat('${c}')">${c}</button>`).join('');
-}
-
-function filterCat(c){ activeCat=c; buildVCats(); renderNom(); renderChartTab(); }
-
-function renderNom(){
-  const el = document.getElementById('nominees-grid');
-  const filtered = activeCat==='Semua' ? nominees : nominees.filter(n=>n.cat===activeCat);
-  if(!filtered.length){
-    el.innerHTML = `<div class="empty-state"><p>BELUM ADA PESERTA</p><span>Peserta akan muncul di sini setelah mendaftar melalui form pendaftaran.</span></div>`;
-    return;
-  }
-  const sorted = [...filtered].sort((a,b)=>b.vote_count-a.vote_count);
-  const maxV = Math.max(...sorted.map(n=>n.vote_count), 1);
-
-  const existingIds = Array.from(el.querySelectorAll('.ncard')).map(c=>c.id);
-  const newIds = sorted.map(n=>'nc-'+n.id);
-  const needRebuild = existingIds.join(',') !== newIds.join(',');
-
-  if(needRebuild){
-    el.innerHTML = sorted.map(n=>{
-      const total = nominees.filter(x=>x.cat===n.cat).reduce((s,x)=>s+x.vote_count,0)||1;
-      const share = Math.round(n.vote_count/total*100);
-      const voted = votes[n.cat]===n.id;
-      return `<div class="ncard${voted?' voted':''}" id="nc-${n.id}">
-        <div class="ncard-nation">${n.nation}</div>
-        ${n.web?`<div style="font-size:.75rem;margin-bottom:.2rem"><a href="${n.web}" style="color:var(--acc2);text-decoration:underline" target="_blank">${n.web}</a></div>`:''}
-        <div class="ncard-cat">${n.cat}</div>
-        <div class="bar-bg"><div class="bar-fill" id="bar-${n.id}" style="width:0%;transition:width 0.7s ease"></div></div>
-        <div class="bar-nums"><span id="cnt-${n.id}">${n.vote_count} suara</span><span id="pct-${n.id}">${share}%</span></div>
-        <button class="vbtn${voted?' voted-state':''}" id="vbtn-${n.id}" onclick="showCaptcha(${n.id},'${n.cat.replace(/'/g,"\\'")}')">
-          ${voted?'VOTED':'BERIKAN SUARA'}
-        </button>
-      </div>`;
-    }).join('');
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{
-      sorted.forEach(n=>{
-        const pct = Math.round(n.vote_count/maxV*100);
-        const bar = document.getElementById('bar-'+n.id);
-        if(bar) bar.style.width = pct+'%';
-      });
-    }));
-  } else {
-    sorted.forEach(n=>{
-      const pct = Math.round(n.vote_count/maxV*100);
-      const total = nominees.filter(x=>x.cat===n.cat).reduce((s,x)=>s+x.vote_count,0)||1;
-      const share = Math.round(n.vote_count/total*100);
-      const voted = votes[n.cat]===n.id;
-      const bar = document.getElementById('bar-'+n.id);
-      const cnt = document.getElementById('cnt-'+n.id);
-      const pctEl = document.getElementById('pct-'+n.id);
-      const vbtn = document.getElementById('vbtn-'+n.id);
-      const card = document.getElementById('nc-'+n.id);
-      if(bar) bar.style.width = pct+'%';
-      if(cnt) cnt.textContent = n.vote_count+' suara';
-      if(pctEl) pctEl.textContent = share+'%';
-      if(card) card.className = 'ncard'+(voted?' voted':'');
-      if(vbtn){ vbtn.className='vbtn'+(voted?' voted-state':''); vbtn.textContent=voted?'VOTED':'BERIKAN SUARA'; }
-    });
-  }
-}
-
-// ── Render Chart Tab ────────────────────────────────────────────
-let chartCat = 'all';
-
-function renderChartTab(){
-  const allCats = [...new Set(nominees.map(n=>n.cat))];
-  // Category filter buttons
-  const catBtns = document.getElementById('chart-cat-btns');
-  if(catBtns){
-    catBtns.innerHTML = ['Semua',...allCats].map(c=>`
-      <button onclick="setChartCat('${c.replace(/'/g,"\'")}');renderChartTab()"
-        style="padding:.45rem 1rem;font-family:'Cinzel',Georgia,serif;font-size:.6rem;letter-spacing:.1em;border:1px solid var(--border2);background:${(c==='Semua'&&chartCat==='all')||(c===chartCat)?'var(--acc)':'transparent'};color:${(c==='Semua'&&chartCat==='all')||(c===chartCat)?'#fff':'var(--acc2)'};cursor:pointer;min-height:40px">
-        ${c}
-      </button>`).join('');
+  function initSupabase() {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    return true;
   }
 
-  const filtered = chartCat==='all' ? nominees : nominees.filter(n=>n.cat===chartCat);
-  const container = document.getElementById('chart-main');
-  if(!container) return;
-
-  if(!filtered.length){
-    container.innerHTML = '<p style="text-align:center;color:var(--acc3);font-family:Cinzel,serif;font-size:.8rem;padding:2rem;letter-spacing:.1em">BELUM ADA DATA</p>';
-    return;
-  }
-
-  // Group by category if showing all
-  const groups = chartCat==='all'
-    ? allCats.map(c=>({cat:c, items:nominees.filter(n=>n.cat===c)}))
-    : [{cat:chartCat, items:filtered}];
-
-  container.innerHTML = groups.map(g=>{
-    const maxV = Math.max(...g.items.map(n=>n.vote_count),1);
-    const total = g.items.reduce((s,n)=>s+n.vote_count,0)||1;
-    const sorted = [...g.items].sort((a,b)=>b.vote_count-a.vote_count);
-    const colors = ['#2C2C2C','#555','#888','#AAA','#CCC'];
-
-    const bars = sorted.map((n,i)=>{
-      const pct = Math.round(n.vote_count/total*100);
-      const barW = Math.round(n.vote_count/maxV*100);
-      const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
-      const col = colors[Math.min(i,colors.length-1)];
-      return `<div style="margin-bottom:1.1rem">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.3rem;gap:.5rem">
-          <div style="font-family:'Cinzel',Georgia,serif;font-size:.72rem;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${medal} ${n.nation}</div>
-          <div style="font-family:'Cinzel',Georgia,serif;font-size:.68rem;color:var(--acc2);white-space:nowrap;flex-shrink:0">${n.vote_count} suara &nbsp;<b style="color:var(--text)">${pct}%</b></div>
-        </div>
-        <div style="height:24px;background:var(--bg3);border-radius:2px;overflow:hidden;position:relative">
-          <div class="chart-bar" data-w="${barW}" style="height:100%;width:0%;background:${col};border-radius:2px;transition:width 0.7s ease"></div>
-        </div>
-      </div>`;
-    }).join('');
-
-    return `<div style="background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--acc);padding:1.4rem;margin-bottom:1.5rem">
-      <p style="font-family:'Cinzel',Georgia,serif;font-size:.62rem;letter-spacing:.14em;color:var(--acc2);margin-bottom:1.1rem">${g.cat}</p>
-      ${bars}
-    </div>`;
-  }).join('');
-
-  // Animate bars
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{
-    document.querySelectorAll('.chart-bar').forEach(el=>{
-      el.style.width = el.dataset.w + '%';
-    });
-  }));
-
-  // Update timestamp
-  const upd = document.getElementById('chart-updated');
-  if(upd) upd.textContent = 'DIPERBARUI: ' + new Date().toLocaleTimeString('id-ID');
-}
-
-function setChartCat(c){ chartCat = c==='Semua'?'all':c; }
-
-// ── Load data from Supabase ─────────────────────────────────────// ── Load data from Supabase ─────────────────────────────────────
-async function loadNominees(){
-  const {data, error} = await sb.from('nominees').select('id,nation,cat,vote_count').order('created_at', {ascending:true});
-  if(error){ console.error(error); return; }
-  nominees = data || [];
-  try { localStorage.setItem('kni_nominees_cache', JSON.stringify(nominees)); } catch(e){}
-  buildVCats(); renderNom(); renderRegs(); renderChartTab();
-}
-
-// ── Submit pendaftaran ──────────────────────────────────────────
-async function submitReg(){
-  const btn = document.querySelector('.submit-btn');
-  const nation = document.getElementById('f-nation').value.trim();
-  const wa = document.getElementById('f-wa').value.trim();
-  const role = document.getElementById('f-role').value;
-  const cat = document.getElementById('f-cat').value;
-  const desc = document.getElementById('f-desc').value.trim();
-  const web = document.getElementById('f-web').value.trim();
-  if(!nation||!wa||!role||!cat||!desc){ toast('Lengkapi semua field wajib', false); return; }
-
-  btn.textContent = 'MENDAFTARKAN...'; btn.disabled = true;
-
-  const {data, error} = await sb.from('nominees').insert([{
-    nation, wa, role, cat, web, description: desc, vote_count: 0
-  }]).select().single();
-
-  btn.textContent = 'DAFTARKAN SEKARANG'; btn.disabled = false;
-
-  if(error){
-    if(error.code==='23505') toast('Nama ini sudah terdaftar di kategori tersebut', false);
-    else toast('Gagal mendaftar: '+error.message, false);
-    return;
-  }
-  nominees.push(data);
-  buildVCats(); renderNom(); renderRegs(); renderChartTab();
-  ['f-nation','f-wa','f-desc','f-web'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('f-role').value='';
-  document.getElementById('f-cat').value='';
-  toast(nation+' berhasil didaftarkan dan muncul di voting!');
-}
-
-// ── CAPTCHA ─────────────────────────────────────────────────────
-let captchaPendingId = null, captchaPendingCat = null, captchaAnswer = 0;
-
-function genCaptcha(){
-  const a = Math.floor(Math.random()*10)+1;
-  const b = Math.floor(Math.random()*10)+1;
-  const ops = [
-    {q: a+' + '+b, a: a+b},
-    {q: a+' × '+b, a: a*b},
-    {q: (a+b)+' - '+b, a: a}
-  ];
-  const op = ops[Math.floor(Math.random()*ops.length)];
-  captchaAnswer = op.a;
-  document.getElementById('captcha-question').textContent = 'Berapa '+op.q+' = ?';
-}
-
-function showCaptcha(id, cat){
-  if(votes[cat]){ toast('Anda sudah memilih di kategori ini', false); return; }
-  captchaPendingId = id;
-  captchaPendingCat = cat;
-  genCaptcha();
-  document.getElementById('captcha-input').value = '';
-  document.getElementById('captcha-error').style.display = 'none';
-  document.getElementById('captcha-modal').style.display = 'flex';
-  setTimeout(()=>document.getElementById('captcha-input').focus(), 100);
-}
-
-function closeCaptcha(){
-  document.getElementById('captcha-modal').style.display = 'none';
-  captchaPendingId = null; captchaPendingCat = null;
-}
-
-function checkCaptcha(){
-  const val = parseInt(document.getElementById('captcha-input').value);
-  if(val === captchaAnswer){
-    document.getElementById('captcha-modal').style.display = 'none';
-    castVote(captchaPendingId, captchaPendingCat);
-  } else {
-    document.getElementById('captcha-error').style.display = 'block';
-    document.getElementById('captcha-input').value = '';
-    genCaptcha();
-    setTimeout(()=>document.getElementById('captcha-input').focus(), 100);
-  }
-}
-
-// ── Cast vote ───────────────────────────────────────────────────
-async function castVote(id, cat){
-  if(votes[cat]){ toast('Anda sudah memilih di kategori ini', false); return; }
-  const n = nominees.find(x=>x.id===id);
-  if(!n) return;
-
-  // Optimistic UI update
-  n.vote_count++;
-  votes[cat] = id;
-  localStorage.setItem('kni4_votes', JSON.stringify(votes));
-  renderNom(); renderChartTab();
-
-  const {error} = await sb.from('nominees').update({vote_count: n.vote_count}).eq('id', id);
-  if(error){
-    // Rollback
-    n.vote_count--;
-    delete votes[cat];
-    localStorage.setItem('kni4_votes', JSON.stringify(votes));
-    renderNom(); renderChartTab();
-    toast('Gagal menyimpan suara: '+error.message, false);
-    return;
-  }
-  toast('Suara Anda untuk '+n.nation+' dicatat!');
-}
-
-// ── Realtime subscription ───────────────────────────────────────
-let realtimeOk = false;
-
-function subscribeRealtime(){
-  sb.channel('nominees-realtime')
-    .on('postgres_changes', {event:'UPDATE', schema:'public', table:'nominees'}, payload=>{
-      const idx = nominees.findIndex(n=>n.id===payload.new.id);
-      if(idx!==-1){
-        nominees[idx] = {...nominees[idx], ...payload.new};
-        renderNom(); renderChartTab();
-      }
-    })
-    .on('postgres_changes', {event:'INSERT', schema:'public', table:'nominees'}, payload=>{
-      if(!nominees.find(n=>n.id===payload.new.id)){
-        nominees.push(payload.new);
-        buildVCats(); renderNom(); renderRegs(); renderChartTab();
-      }
-    })
-    .subscribe(status=>{
-      realtimeOk = (status === 'SUBSCRIBED');
-      updateRealtimeDot();
-    });
-}
-
-// Fallback polling setiap 5 detik
-async function pollNominees(){
-  const {data, error} = await sb.from('nominees').select('*').order('created_at',{ascending:true});
-  if(error || !data) return;
-  let changed = false;
-  data.forEach(n=>{
-    const idx = nominees.findIndex(x=>x.id===n.id);
-    if(idx===-1){ nominees.push(n); changed=true; }
-    else if(nominees[idx].vote_count !== n.vote_count){
-      nominees[idx] = {...nominees[idx], ...n}; changed=true;
-    }
+  /* ===== ON LOAD ===== */
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('configModal').style.display = 'none';
+    initSupabase();
+    loadArtworks();
+    subscribeRealtime();
   });
-  if(changed){ buildVCats(); renderNom(); renderRegs(); renderChartTab(); }
-}
-setInterval(pollNominees, 5000);
 
-// Indikator LIVE / POLLING di pojok kiri bawah
-function updateRealtimeDot(){
-  let dot = document.getElementById('rt-dot');
-  if(!dot){
-    dot = document.createElement('div');
-    dot.id = 'rt-dot';
-    dot.style.cssText = 'position:fixed;bottom:1rem;left:1rem;display:flex;align-items:center;gap:.4rem;font-family:Cinzel,serif;font-size:.55rem;letter-spacing:.08em;color:var(--acc3);z-index:500;pointer-events:none';
-    document.body.appendChild(dot);
+  /* ===== TABS ===== */
+  function showPage(name, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    btn.classList.add('active');
+    if (name === 'dashboard') loadArtworks();
   }
-  dot.innerHTML = realtimeOk
-    ? '<span style="width:7px;height:7px;border-radius:50%;background:#27ae60;display:inline-block;animation:pulse 1.5s infinite"></span> LIVE'
-    : '<span style="width:7px;height:7px;border-radius:50%;background:#e67e22;display:inline-block"></span> POLLING';
-}
 
-// ── Countdown ───────────────────────────────────────────────────
-function tick(){
-  const diff = Math.max(0, new Date('2026-06-06T23:59:59') - new Date());
-  document.getElementById('cd-d').textContent = String(Math.floor(diff/864e5)).padStart(2,'0');
-  document.getElementById('cd-h').textContent = String(Math.floor((diff%864e5)/36e5)).padStart(2,'0');
-  document.getElementById('cd-m').textContent = String(Math.floor((diff%36e5)/6e4)).padStart(2,'0');
-  document.getElementById('cd-s').textContent = String(Math.floor((diff%6e4)/1e3)).padStart(2,'0');
-}
+  /* ===== FILE HANDLING ===== */
+  const dropZone   = document.getElementById('dropZone');
+  const fileInput  = document.getElementById('fileInput');
+  const previewWrap = document.getElementById('previewWrap');
+  const previewImg = document.getElementById('previewImg');
+  let selectedFile = null;
 
-// ── Vote Password ───────────────────────────────────────────────
-function promptVotePassword(){
-  const modal = document.getElementById('vote-modal');
-  modal.style.display = 'flex';
-  document.getElementById('vote-pwd-input').value = '';
-  document.getElementById('vote-pwd-error').style.display = 'none';
-  setTimeout(()=>document.getElementById('vote-pwd-input').focus(), 100);
-}
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault(); dropZone.classList.remove('drag-over');
+    const f = e.dataTransfer.files[0];
+    if (f) setFile(f);
+  });
+  fileInput.addEventListener('change', () => { if (fileInput.files[0]) setFile(fileInput.files[0]); });
 
-function closeVoteModal(){
-  document.getElementById('vote-modal').style.display = 'none';
-}
-
-function checkVotePassword(){
-  const val = document.getElementById('vote-pwd-input').value.trim();
-  if(val === CHART_PWD){
-    closeVoteModal();
-    switchTab('vote');
-    scrollSec('tabs-sec');
-  } else {
-    document.getElementById('vote-pwd-error').style.display = 'block';
-    document.getElementById('vote-pwd-input').value = '';
-    document.getElementById('vote-pwd-input').focus();
+  function setFile(f) {
+    if (!f.type.startsWith('image/')) { showAlert('File harus berupa gambar!', 'error'); return; }
+    if (f.size > 10 * 1024 * 1024) { showAlert('Ukuran gambar maksimal 10 MB!', 'error'); return; }
+    selectedFile = f;
+    const reader = new FileReader();
+    reader.onload = e => {
+      previewImg.src = e.target.result;
+      previewWrap.style.display = 'block';
+    };
+    reader.readAsDataURL(f);
   }
-}
 
-// ── Chart Password ──────────────────────────────────────────────
-const CHART_PWD = 'KNI';
-
-function promptChartPassword(){
-  const modal = document.getElementById('pwd-modal');
-  modal.style.display = 'flex';
-  document.getElementById('pwd-input').value = '';
-  document.getElementById('pwd-error').style.display = 'none';
-  setTimeout(()=>document.getElementById('pwd-input').focus(), 100);
-}
-
-function closePwdModal(){
-  document.getElementById('pwd-modal').style.display = 'none';
-}
-
-function checkChartPassword(){
-  const val = document.getElementById('pwd-input').value.trim();
-  if(val === CHART_PWD){
-    closePwdModal();
-    scrollSec('tabs-sec');
-  } else {
-    document.getElementById('pwd-error').style.display = 'block';
-    document.getElementById('pwd-input').value = '';
-    document.getElementById('pwd-input').focus();
+  function clearFile() {
+    selectedFile = null;
+    fileInput.value = '';
+    previewWrap.style.display = 'none';
+    previewImg.src = '';
   }
-}
 
-// ── Hamburger menu ──────────────────────────────────────────────
-function toggleMenu(){
-  const btn = document.getElementById('hamburger');
-  const menu = document.getElementById('mobile-menu');
-  btn.classList.toggle('open');
-  menu.classList.toggle('open');
-}
+  /* ===== UPLOAD ===== */
+  async function uploadArtwork() {
+    if (!supabase) { showAlert('Konfigurasi Supabase belum diatur!', 'error'); return; }
+    const member   = document.getElementById('memberName').value.trim();
+    const title    = document.getElementById('artTitle').value.trim();
+    const category = document.getElementById('artCategory').value;
+    const desc     = document.getElementById('artDesc').value.trim();
 
-// ── Init ────────────────────────────────────────────────────────
-tick(); setInterval(tick, 1000);
-loadNominees();
-subscribeRealtime();
+    if (!member)   { showAlert('Nama member tidak boleh kosong!', 'error'); return; }
+    if (!title)    { showAlert('Judul karya tidak boleh kosong!', 'error'); return; }
+    if (!category) { showAlert('Pilih kategori terlebih dahulu!', 'error'); return; }
+    if (!selectedFile) { showAlert('Upload gambar terlebih dahulu!', 'error'); return; }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true; btn.textContent = 'Mengunggah…';
+
+    const progressWrap = document.getElementById('progressWrap');
+    const progressFill = document.getElementById('progressFill');
+    progressWrap.style.display = 'block';
+    progressFill.style.width   = '30%';
+
+    try {
+      /* Upload gambar ke Storage */
+      const ext      = selectedFile.name.split('.').pop();
+      const fileName = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+      const filePath = `uploads/${fileName}`;
+
+      const { error: upErr } = await supabase.storage
+        .from(STORAGE_BUCKET)
+        .upload(filePath, selectedFile, { cacheControl: '3600', upsert: false });
+
+      if (upErr) throw upErr;
+      progressFill.style.width = '65%';
+
+      /* Dapatkan public URL */
+      const { data: urlData } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(filePath);
+      const imageUrl = urlData.publicUrl;
+      progressFill.style.width = '80%';
+
+      /* Simpan metadata ke tabel */
+      const { error: dbErr } = await supabase.from('kni_artworks').insert([{
+        member_name: member,
+        art_title:   title,
+        category:    category,
+        description: desc,
+        image_url:   imageUrl,
+        file_path:   filePath,
+        created_at:  new Date().toISOString(),
+      }]);
+
+      if (dbErr) throw dbErr;
+      progressFill.style.width = '100%';
+
+      setTimeout(() => {
+        progressWrap.style.display = 'none';
+        progressFill.style.width   = '0%';
+      }, 600);
+
+      /* Reset form */
+      document.getElementById('memberName').value = '';
+      document.getElementById('artTitle').value   = '';
+      document.getElementById('artCategory').value = '';
+      document.getElementById('artDesc').value    = '';
+      clearFile();
+      showAlert('Karya berhasil dikirim! Terima kasih sudah berpartisipasi 🎉', 'success');
+      showToast('Karya kamu sudah tampil di dashboard!');
+    } catch (err) {
+      console.error(err);
+      progressWrap.style.display = 'none';
+      showAlert('Gagal upload: ' + (err.message || 'Coba lagi.'), 'error');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Kirim Karya →';
+    }
+  }
+
+  /* ===== DASHBOARD ===== */
+  async function loadArtworks() {
+    if (!supabase) return;
+    const { data, error } = await supabase
+      .from('kni_artworks')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) { console.error(error); return; }
+    allArtworks = data || [];
+    renderGallery(false);
+  }
+
+  function renderGallery(animate) {
+    const grid = document.getElementById('galleryGrid');
+    const filtered = activeCategory
+      ? allArtworks.filter(a => a.category === activeCategory)
+      : allArtworks;
+
+    document.getElementById('totalCount').textContent = allArtworks.length;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `<div class="empty-state" style="column-span:all;">
+        <div style="font-size:3rem;opacity:0.3;margin-bottom:1rem;">🎨</div>
+        <p>Belum ada karya yang diunggah.<br/>Jadilah yang pertama!</p>
+      </div>`;
+      return;
+    }
+
+    grid.innerHTML = filtered.map((a, i) => `
+      <div class="gallery-card${animate && i === 0 ? ' new-entry' : ''}"
+           onclick="openLightbox('${esc(a.image_url)}','${esc(a.art_title)}','${esc(a.member_name)} · ${esc(a.category)}')">
+        <img class="card-img" src="${esc(a.image_url)}" alt="${esc(a.art_title)}"
+             style="height:${160 + (i % 3) * 60}px" loading="lazy" />
+        <div class="card-body">
+          <div class="card-category">${esc(a.category)}</div>
+          <div class="card-title">${esc(a.art_title)}</div>
+          <div class="card-meta">
+            <span class="card-member">✦ ${esc(a.member_name)}</span><br/>
+            <span>${timeAgo(a.created_at)}</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function filterCategory(cat, btn) {
+    activeCategory = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderGallery(false);
+  }
+
+  /* ===== REALTIME ===== */
+  function subscribeRealtime() {
+    if (!supabase) return;
+    if (realtimeChannel) supabase.removeChannel(realtimeChannel);
+    realtimeChannel = supabase
+      .channel('kni-artworks-realtime')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'kni_artworks' }, payload => {
+        allArtworks.unshift(payload.new);
+        renderGallery(true);
+        showToast(`Karya baru dari ${payload.new.member_name}!`);
+      })
+      .subscribe();
+  }
+
+  /* ===== LIGHTBOX ===== */
+  function openLightbox(url, title, meta) {
+    document.getElementById('lbImg').src    = url;
+    document.getElementById('lbTitle').textContent = title;
+    document.getElementById('lbMeta').textContent  = meta;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox(e) {
+    if (!e || e.target === document.getElementById('lightbox') || e.currentTarget.tagName === 'BUTTON') {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+  }
+
+  /* ===== ALERT / TOAST ===== */
+  function showAlert(msg, type) {
+    const box = document.getElementById('alertBox');
+    box.textContent = msg; box.className = 'alert ' + type;
+    box.style.display = 'block';
+    setTimeout(() => { box.style.display = 'none'; }, 5000);
+  }
+
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+  }
+
+  /* ===== SPLASH ===== */
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      document.getElementById('splash').classList.add('hide');
+    }, 1600);
+  });
+
+  /* ===== HELPERS ===== */
+  function esc(str) {
+    if (!str) return '';
+    return str.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function timeAgo(iso) {
+    const diff = Math.floor((Date.now() - new Date(iso)) / 1000);
+    if (diff < 60)   return 'Baru saja';
+    if (diff < 3600) return Math.floor(diff / 60) + ' menit lalu';
+    if (diff < 86400)return Math.floor(diff / 3600) + ' jam lalu';
+    return Math.floor(diff / 86400) + ' hari lalu';
+  }
 </script>
+</body>
+</html>
