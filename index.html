@@ -81,19 +81,19 @@
     .splash-bar-fill {
       height: 100%; background: #FFFFFF;
       border-radius: 3px;
-      animation: loadBar 1.2s 0.2s cubic-bezier(0.4,0,0.2,1) forwards;
+      animation: loadBar 0.6s 0.1s cubic-bezier(0.4,0,0.2,1) forwards;
       width: 0%;
     }
     @keyframes loadBar {
       to { width: 100%; }
     }
 
-    nav   { animation: fadeSlideDown 0.5s 1.5s ease both; }
-    .hero { animation: fadeIn 0.6s 1.6s ease both; }
-    .hero-eyebrow { animation: fadeSlideUp 0.5s 1.65s ease both; opacity: 0; }
-    .hero-title   { animation: fadeSlideUp 0.55s 1.75s ease both; opacity: 0; }
-    .hero-sub     { animation: fadeSlideUp 0.5s 1.85s ease both; opacity: 0; }
-    #page-upload .upload-card { animation: scaleIn 0.5s 1.9s ease both; }
+    nav   { animation: fadeSlideDown 0.4s 0.7s ease both; }
+    .hero { animation: fadeIn 0.4s 0.75s ease both; }
+    .hero-eyebrow { animation: fadeSlideUp 0.4s 0.8s ease both; opacity: 0; }
+    .hero-title   { animation: fadeSlideUp 0.4s 0.85s ease both; opacity: 0; }
+    .hero-sub     { animation: fadeSlideUp 0.4s 0.9s ease both; opacity: 0; }
+    #page-upload .upload-card { animation: scaleIn 0.4s 0.95s ease both; }
 
     /* ── TOP NAV ── */
     nav {
@@ -814,7 +814,7 @@
   window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       document.getElementById('splash').classList.add('hide');
-    }, 1600);
+    }, 800);
   });
 
   /* ===== HELPERS ===== */
